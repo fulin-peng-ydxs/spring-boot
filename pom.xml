@@ -2,22 +2,48 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.9.RELEASE</version>
-    </parent>
 
+    <!--第一种类型-->
+<!--    <parent>-->
+<!--        <groupId>org.springframework.boot</groupId>-->
+<!--        <artifactId>spring-boot-starter-parent</artifactId>-->
+<!--        <version>1.5.9.RELEASE</version>-->
+<!--    </parent>-->
     <groupId>S1897.java.spring-boot</groupId>
     <artifactId>spring-boot</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+
     <modules>
         <module>boot-source</module>
+        <module>boot-log</module>
+        <module>boot-data</module>
     </modules>
     <modelVersion>4.0.0</modelVersion>
 
     <dependencies>
-
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
     </dependencies>
+
+    <!--第二种类型-->
+    <!--在dependencyManagement中：是用于提供了一种管理依赖版本号的方式。（dependencyManagement中定义的
+    只是依赖的声明，并不实现引入，因此子项目需要显式的声明需要用的依赖。）在dependencyManagement元素中声明所
+    依赖的jar包的版本号等信息，那么所有子项目再次引入此依赖jar包时则无需显式的列出版本号。Maven会沿着父子层级
+    向上寻找拥有dependencyManagement元素的项目，然后使用它指定的版本号。
+    如果某个子项目需要另外的一个版本，只需要声明version即。-->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>1.5.9.RELEASE</version>
+                <!--可以用于提供平级而并非父级依赖导入版本管理-->
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>
