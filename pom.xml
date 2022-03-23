@@ -18,6 +18,7 @@
         <module>boot-source</module>
         <module>boot-log</module>
         <module>boot-data</module>
+        <module>boot-newsdk</module>
     </modules>
     <modelVersion>4.0.0</modelVersion>
 
