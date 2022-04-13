@@ -15,10 +15,12 @@
     <version>1.0-SNAPSHOT</version>
 
     <modules>
-        <module>boot-source</module>
         <module>boot-log</module>
         <module>boot-data</module>
+        <module>boot-source</module>
         <module>boot-newsdk</module>
+        <module>boot-cache</module>
+        <module>boot-mq</module>
     </modules>
     <modelVersion>4.0.0</modelVersion>
 
