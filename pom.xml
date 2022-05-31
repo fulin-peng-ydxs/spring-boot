@@ -22,6 +22,8 @@
         <module>boot-cache</module>
         <module>boot-mq</module>
         <module>boot-email</module>
+        <module>boot-webmvc</module>
+        <module>boot-webflux</module>
     </modules>
     <modelVersion>4.0.0</modelVersion>
 
