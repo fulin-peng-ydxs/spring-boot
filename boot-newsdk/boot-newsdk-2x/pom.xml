@@ -16,7 +16,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
                 <version>2.5.10</version>
-                <!--可以用于提供平级而并非父级依赖导入版本管理-->
+                <!--需要作为依赖进行导入-->
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>

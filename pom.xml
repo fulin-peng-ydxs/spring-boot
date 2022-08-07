@@ -24,6 +24,7 @@
         <module>boot-email</module>
         <module>boot-webmvc</module>
         <module>boot-webflux</module>
+        <module>boot-security</module>
     </modules>
     <modelVersion>4.0.0</modelVersion>
 
@@ -69,7 +70,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
                 <version>1.5.9.RELEASE</version>
-                <!--可以用于提供平级而并非父级依赖导入版本管理-->
+                <!--需要作为依赖进行导入-->
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
