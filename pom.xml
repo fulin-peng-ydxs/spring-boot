@@ -56,6 +56,12 @@
             <scope>test</scope>
         </dependency>
 
+        <!--实体构建-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
     </dependencies>
 
     <!--第二种类型-->
