@@ -1,4 +1,4 @@
-package boot.controller.negotiation;
+package boot.negotiation;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
