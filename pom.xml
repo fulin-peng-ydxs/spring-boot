@@ -25,6 +25,7 @@
         <module>boot-webmvc</module>
         <module>boot-webflux</module>
         <module>boot-security</module>
+        <module>boot-dubbo</module>
     </modules>
     <modelVersion>4.0.0</modelVersion>
 
@@ -54,6 +55,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <!--实体构建-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
         </dependency>
 
     </dependencies>
