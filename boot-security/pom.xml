@@ -13,7 +13,6 @@
     <modules>
         <module>spring-security</module>
         <module>security-shiro</module>
-        <module>shiro-web</module>
     </modules>
 
     <dependencyManagement>
