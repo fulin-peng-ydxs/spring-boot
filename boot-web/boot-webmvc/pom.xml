@@ -16,6 +16,8 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <!--插件无法通过import来实现管理，只能通过继承的方式-->
+                <version>1.5.9.RELEASE</version>
             </plugin>
         </plugins>
     </build>
