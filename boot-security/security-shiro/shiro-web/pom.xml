@@ -9,6 +9,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>shiro-web</artifactId>
+    <packaging>jar</packaging>
+
     <dependencies>
         <!--shiro-web启动器-->
         <dependency>
