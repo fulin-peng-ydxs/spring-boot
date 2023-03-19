@@ -16,6 +16,7 @@
         <module>data-redis</module>
         <module>data-jdbc</module>
         <module>data-mybatis-plus</module>
+        <module>data-mybatis-plus-dynamic</module>
     </modules>
 
     <dependencies>
