@@ -1,0 +1,17 @@
+spring:
+  ##数据源配置
+  datasource:
+    url: jdbc:mysql://localhost:3307/jpa
+    driver-class-name: com.mysql.jdbc.Driver
+    password: root
+    username: root
+    type: com.alibaba.druid.pool.DruidDataSource
+  ##jpa设置
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+       dialect: org.hibernate.dialect.MySQL5Dialect
+       format_sql: true
