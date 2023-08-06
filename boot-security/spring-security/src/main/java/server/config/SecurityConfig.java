@@ -9,7 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * @author PengFuLin
- * @description securityÅäÖÃÀà
+ * @description securityé…ç½®ç±»
  * @date 2022/8/8 22:03
  */
 @Configuration
@@ -22,34 +22,34 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.formLogin() //ÓÃÓÚÅäÖÃform±íµ¥ÈÏÖ¤
-                .loginPage("/login.html") //µÇÂ¼Ò³Ãæ
-                .loginProcessingUrl("/login") //±íµ¥Ìá½»ÈÏÖ¤ÇëÇóurl
-                /*×¢Òâ´Ë·½·¨»áÊ¹ÓÃforwardÄÚ²¿×ª·¢´¦Àí£¬×¢ÒâµÄÊÇÆäÇëÇó·½Ê½µ¼ÖÂµÄÎÊÌâ*/
-                .successForwardUrl("/success") //µÇÂ¼³É¹¦ºóurl
-                .failureForwardUrl("/failure") //µÇÂ¼Ê§°Üºóurl
-                .usernameParameter("user_name") //µÇÂ¼ÓÃ»§Ãû²ÎÊı
-                .passwordParameter("user_pwd"); //µÇÂ¼ÓÃ»§ÃÜÂë²ÎÊı
+        http.formLogin() //ç”¨äºé…ç½®formè¡¨å•è®¤è¯
+                .loginPage("/login.html") //ç™»å½•é¡µé¢
+                .loginProcessingUrl("/login") //è¡¨å•æäº¤è®¤è¯è¯·æ±‚url
+                /*æ³¨æ„æ­¤æ–¹æ³•ä¼šä½¿ç”¨forwardå†…éƒ¨è½¬å‘å¤„ç†ï¼Œæ³¨æ„çš„æ˜¯å…¶è¯·æ±‚æ–¹å¼å¯¼è‡´çš„é—®é¢˜*/
+                .successForwardUrl("/success") //ç™»å½•æˆåŠŸåurl
+                .failureForwardUrl("/failure") //ç™»å½•å¤±è´¥åurl
+                .usernameParameter("user_name") //ç™»å½•ç”¨æˆ·åå‚æ•°
+                .passwordParameter("user_pwd"); //ç™»å½•ç”¨æˆ·å¯†ç å‚æ•°
 
         /*
-         * ĞèÒª×¢Òâ£¬µ±Ê¹ÓÃ×Ô¶¨ÒåÅäÖÃÀà£¬ÔòÄ¬ÈÏÈ¨ÏŞ¿ØÖÆ»áÊ§Ğ§£¬ĞèÒªÊÖ¶¯ÉèÖÃ
+         * éœ€è¦æ³¨æ„ï¼Œå½“ä½¿ç”¨è‡ªå®šä¹‰é…ç½®ç±»ï¼Œåˆ™é»˜è®¤æƒé™æ§åˆ¶ä¼šå¤±æ•ˆï¼Œéœ€è¦æ‰‹åŠ¨è®¾ç½®
          */
-        //ÅäÖÃËùÓĞÇëÇó¶¼ĞèÒªÈÏÖ¤
+        //é…ç½®æ‰€æœ‰è¯·æ±‚éƒ½éœ€è¦è®¤è¯
         http.authorizeRequests().antMatchers("/login.html","/error").permitAll()
-                .antMatchers("/hasAuthority").hasAuthority("admin")  //ĞèÒª¾ßÓĞadminÈ¨ÏŞ
-                .antMatchers("/hasAnyAuthority").hasAnyAuthority("pfl","bmgl")  //ĞèÒª¾ßÓĞadminÈ¨ÏŞ»òbmglÈ¨ÏŞ
-                .antMatchers("/hasRole").hasRole("role") //ĞèÒªÓĞÖ¸¶¨½ÇÉ«
-                .anyRequest().authenticated();  //ÆäËûÇëÇó¾ùĞèÒªÈÏÖ¤£¨Èç¹û²»ÉèÖÃ¾ÍÄ¬ÈÏ²»ĞèÒª£©
+                .antMatchers("/hasAuthority").hasAuthority("admin")  //éœ€è¦å…·æœ‰adminæƒé™
+                .antMatchers("/hasAnyAuthority").hasAnyAuthority("pfl","bmgl")  //éœ€è¦å…·æœ‰adminæƒé™æˆ–bmglæƒé™
+                .antMatchers("/hasRole").hasRole("role") //éœ€è¦æœ‰æŒ‡å®šè§’è‰²
+                .anyRequest().authenticated();  //å…¶ä»–è¯·æ±‚å‡éœ€è¦è®¤è¯ï¼ˆå¦‚æœä¸è®¾ç½®å°±é»˜è®¤ä¸éœ€è¦ï¼‰
 
-        /*ÉèÖÃÈ¨ÏŞÒì³£´¦Àí*/
-        http.exceptionHandling().accessDeniedPage("/denied.html") //ÉèÖÃ´¦ÀíÎŞÊÚÈ¨·ÃÎÊÊ±µÄÒ³Ãæurl
-                .accessDeniedHandler(null); //ÉèÖÃ´¦ÀíÎŞÊÚÈ¨·ÃÎÊÊ±µÄ´¦ÀíÆ÷
+        /*è®¾ç½®æƒé™å¼‚å¸¸å¤„ç†*/
+        http.exceptionHandling().accessDeniedPage("/denied.html") //è®¾ç½®å¤„ç†æ— æˆæƒè®¿é—®æ—¶çš„é¡µé¢url
+                .accessDeniedHandler(null); //è®¾ç½®å¤„ç†æ— æˆæƒè®¿é—®æ—¶çš„å¤„ç†å™¨
 
-        /*ÉèÖÃµÇ³ö²Ù×÷*/
-        http.logout().logoutUrl("/logout") //ÉèÖÃµÇ³öµØÖ·
-                .logoutSuccessUrl("/logout.html").permitAll(); //ÉèÖÃµÇ³ö³É¹¦Ìø×ªµØÖ·
+        /*è®¾ç½®ç™»å‡ºæ“ä½œ*/
+        http.logout().logoutUrl("/logout") //è®¾ç½®ç™»å‡ºåœ°å€
+                .logoutSuccessUrl("/logout.html").permitAll(); //è®¾ç½®ç™»å‡ºæˆåŠŸè·³è½¬åœ°å€
 
-        /*¹Ø±ÕCsrf¹¦ÄÜ*/
+        /*å…³é—­CsrfåŠŸèƒ½*/
 //        http.csrf().disable();
     }
 }

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- * Demo¿ØÖÆ²ã
+ * DemoæŽ§åˆ¶å±‚
  *
  * @author PengFuLin
  * 2022/10/3 21:00

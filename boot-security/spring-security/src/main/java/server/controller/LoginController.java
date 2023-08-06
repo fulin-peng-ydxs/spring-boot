@@ -12,13 +12,13 @@ public class LoginController {
 
     @PostMapping ("success")
     public String encoding(){
-        System.out.println("ÄãºÃ");
-        return "ÄãºÃ";
+        System.out.println("ä½ å¥½");
+        return "ä½ å¥½";
     }
     @PostMapping ("failure")
     public String failure(){
-        System.out.println("Ê§°Ü");
-        return "Ê§°Ü";
+        System.out.println("å¤±è´¥");
+        return "å¤±è´¥";
     }
 
 

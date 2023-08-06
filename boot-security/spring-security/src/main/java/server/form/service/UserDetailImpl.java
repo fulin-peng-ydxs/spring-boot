@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * @author PengFuLin
- * @description ÈÏÖ¤ĞÅÏ¢²éÑ¯·şÎñ
+ * @description è®¤è¯ä¿¡æ¯æŸ¥è¯¢æœåŠ¡
  * @date 2022/8/8 22:08
  */
 @Service
@@ -17,11 +17,11 @@ public class UserDetailImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws
             UsernameNotFoundException {
-        // ÅĞ¶ÏÓÃ»§ÃûÊÇ·ñ´æÔÚ
+        // åˆ¤æ–­ç”¨æˆ·åæ˜¯å¦å­˜åœ¨
         if (!"admin".equals(username)) {
-            throw new UsernameNotFoundException("ÓÃ»§Ãû²»´æÔÚ£¡");
+            throw new UsernameNotFoundException("ç”¨æˆ·åä¸å­˜åœ¨ï¼");
         }
-        // ´ÓÊı¾İ¿âÖĞ»ñÈ¡µÄÃÜÂë atguigu µÄÃÜÎÄ
+        // ä»æ•°æ®åº“ä¸­è·å–çš„å¯†ç  atguigu çš„å¯†æ–‡
         String pwd =
                 "$2a$10$2R/M6iU3mCZt3ByG7kwYTeeW0w7/UqdeXrb27zkBIizBvAven0/na";
         return new User(username, pwd,
