@@ -1,4 +1,4 @@
-package boot.error;
+package web.mvc.error;
 
 import org.springframework.boot.autoconfigure.web.DefaultErrorAttributes;
 import org.springframework.stereotype.Component;

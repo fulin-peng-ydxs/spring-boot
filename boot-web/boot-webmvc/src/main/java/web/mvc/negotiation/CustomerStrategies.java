@@ -1,4 +1,4 @@
-package boot.negotiation;
+package web.mvc.negotiation;
 
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;

@@ -1,4 +1,4 @@
-package boot.error;
+package web.mvc.error;
 
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
