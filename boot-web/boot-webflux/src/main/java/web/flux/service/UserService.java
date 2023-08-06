@@ -1,6 +1,6 @@
-package function.service;
+package web.flux.service;
 
-import function.entity.User;
+import web.flux.entity.User;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 

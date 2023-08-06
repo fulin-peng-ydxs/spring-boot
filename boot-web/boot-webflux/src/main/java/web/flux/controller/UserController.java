@@ -1,7 +1,7 @@
-package boot.controller;
+package web.flux.controller;
 
-import boot.entity.User;
-import boot.service.UserService;
+import web.flux.entity.User;
+import web.flux.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;

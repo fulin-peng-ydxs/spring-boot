@@ -1,7 +1,7 @@
-package function.service.impl;
+package web.flux.service.impl;
 
-import function.entity.User;
-import function.service.UserService;
+import web.flux.entity.User;
+import web.flux.service.UserService;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
