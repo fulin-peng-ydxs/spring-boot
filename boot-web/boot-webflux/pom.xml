@@ -9,11 +9,17 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>boot-webflux</artifactId>
+
     <dependencies>
-        <!--webflux在spring5中才加入-->
+        <!--webflux：在spring5中才加入-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webflux</artifactId>
+        </dependency>
+        <!--redis会话管理-->
+        <dependency>
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session-data-redis</artifactId>
         </dependency>
     </dependencies>
 
