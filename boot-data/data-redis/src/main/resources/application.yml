@@ -1,0 +1,9 @@
+server:
+  port: 8888
+
+spring:
+  redis:  ##此内置默认配置，无改动无需配置，开箱即用
+    host: 127.0.0.1
+    password: 123
+    database: 0
+    port: 6379
