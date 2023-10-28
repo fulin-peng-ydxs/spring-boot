@@ -26,6 +26,7 @@
         <module>boot-dubbo</module>
         <module>boot-test</module>
         <module>boot-web</module>
+        <module>boot-aop</module>
     </modules>
     <modelVersion>4.0.0</modelVersion>
 

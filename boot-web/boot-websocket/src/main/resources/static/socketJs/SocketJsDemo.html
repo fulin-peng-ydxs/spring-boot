@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket Chat</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.2/sockjs.min.js"></script>
+</head>
+<body>
+<div id="chat">
+    <div id="messages"></div>
+    <input type="text" id="message" placeholder="Type a message..." />
+    <button id="send">Send</button>
+</div>
+
+<script>
+    // SockJS连接
+    var socket = new SockJS('http://localhost:7788/socket.js');
+
+    // 连接建立时
+    socket.onopen = function () {
+        console.log('Connected to SockJS');
+    };
+
+    // 接收消息
+    socket.onmessage = function (event) {
+        showMessage(event.data);
+    };
+
+    // 发送消息
+    document.getElementById('send').addEventListener('click', function () {
+        var message = document.getElementById('message').value;
+        socket.send(JSON.stringify({ 'content': message }));
+    });
+
+    // 显示消息
+    function showMessage(message) {
+        var rt = document.getElementById("messages");
+        rt.innerHTML = rt.innerHTML + "\n" + message;
+    }
+</script>
+</body>
+</html>
