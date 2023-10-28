@@ -14,7 +14,7 @@
 
 <script>
     var socket = new SockJS('http://localhost:7788/stomp/socket.js/portfolio');
-    var stompClient = Stomp.over(socket);  //基于传输协议运行，这里时sockjs
+    var stompClient = Stomp.over(socket);  //基于传输协议运行，这里是用的sockjs（TCP）
 
     stompClient.connect({}, function (frame) {
         stompClient.subscribe('/topic/public', function (message) {
