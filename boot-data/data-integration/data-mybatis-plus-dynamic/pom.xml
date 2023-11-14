@@ -3,12 +3,12 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>boot-data</artifactId>
+        <artifactId>data-integration</artifactId>
         <groupId>S1897.java.spring-boot</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>data-mybatis-plus</artifactId>
+    <artifactId>data-mybatis-plus-dynamic</artifactId>
 
     <dependencies>
 
@@ -18,11 +18,10 @@
             <version>3.5.1</version>
         </dependency>
 
-        <!--数据库连接池-->
         <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid</artifactId>
-            <version>1.1.16</version>
+            <groupId>com.baomidou</groupId>
+            <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+            <version>3.5.0</version>
         </dependency>
 
         <!--mysql驱动-->
@@ -32,4 +31,5 @@
         </dependency>
 
     </dependencies>
+
 </project>

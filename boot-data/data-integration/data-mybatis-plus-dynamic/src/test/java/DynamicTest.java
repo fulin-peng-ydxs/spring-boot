@@ -4,8 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import plus.Application;
-import plus.dao.ProductMapper;
-import plus.dao.UserMapper;
 import plus.entity.Product;
 import plus.entity.User;
 import plus.service.ProductService;
