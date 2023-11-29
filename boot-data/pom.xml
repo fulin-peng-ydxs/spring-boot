@@ -16,5 +16,6 @@
         <module>data-jdbc</module>
         <module>data-jpa</module>
         <module>data-integration</module>
+        <module>data-elasticsearch</module>
     </modules>
 </project>
