@@ -6,12 +6,12 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 import javax.annotation.Resource;
 /**
- * redis-session服务
+ * session服务
  * author: pengshuaifeng
  * 2023/10/15
  */
 @Service
-public class ReactiveRedisSession {
+public class ReactiveSessionService {
 
     @Resource(name = "sessionRepository")
     ReactiveSessionRepository<Session> reactiveSessionRepository;
