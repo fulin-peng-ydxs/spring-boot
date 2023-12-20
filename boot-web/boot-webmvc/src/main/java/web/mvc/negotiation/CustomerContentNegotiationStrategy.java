@@ -5,6 +5,8 @@ import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.accept.ContentNegotiationStrategy;
 import org.springframework.web.context.request.NativeWebRequest;
 
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -17,6 +19,6 @@ public class CustomerContentNegotiationStrategy implements ContentNegotiationStr
 
     @Override
     public List<MediaType> resolveMediaTypes(NativeWebRequest webRequest) throws HttpMediaTypeNotAcceptableException {
-        return null;
+        return new LinkedList<>();
     }
 }

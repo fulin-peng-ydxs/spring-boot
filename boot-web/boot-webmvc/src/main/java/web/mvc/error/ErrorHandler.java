@@ -1,34 +1,41 @@
 package web.mvc.error;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
+import org.springframework.web.bind.annotation.ResponseBody;
+import web.mvc.model.web.response.Response;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author PengFuLin
- * @version 1.0
- * @description: controller异常处理器
- * @date 2022/3/19 21:02
+ * controller异常处理器
+ * 2023/12/20 00:08
+ * @author pengshuaifeng
  */
+@Slf4j
 @ControllerAdvice
 public class ErrorHandler {
 
-//    @ResponseBody
-//    @ExceptionHandler(Exception.class)
-//    public Map<String, Object> testError(Exception exception){
-//        System.out.println(exception.getMessage());
-//        Map<String , Object> objectObjectMap = new HashMap<>();
-//        objectObjectMap.put("status", 500);
-//        objectObjectMap.put("msg","异常处理");
-//        return objectObjectMap;
-//    }
-
-
+    /**
+     * json异常返回
+     * 2023/12/20 22:44
+     * @author pengshuaifeng
+     */
+    @ResponseBody
     @ExceptionHandler(Exception.class)
-    public String handleException(Exception e,HttpServletRequest request){
+    public Response jsonHandleException(Exception e){
+        log.error("系统异常",e);
+        return Response.failure();
+    }
+
+    /**
+     * 默认异常请求转发处理
+     * 2023/12/20 22:45
+     * @author pengshuaifeng
+     */
+    public String forwardHandleException(Exception e,HttpServletRequest request){
         Map<String,Object> map = new HashMap<>();
         request.setAttribute("javax.servlet.error.status_code",500);
         map.put("code","system is error");
@@ -37,5 +44,4 @@ public class ErrorHandler {
         request.setAttribute("customer",map);
         return "forward:/error";
     }
-
 }

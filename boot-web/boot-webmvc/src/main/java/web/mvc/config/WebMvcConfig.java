@@ -8,6 +8,11 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import java.util.List;
 
+/**
+ * web-mvc配置类
+ * 2023/12/20 00:11
+ * @author pengshuaifeng
+ */
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
 

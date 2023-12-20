@@ -24,7 +24,7 @@ public class CustomerStrategies extends WebMvcConfigurerAdapter {
         mediaTypes.put("demo",MediaType.parseMediaType("application.yml/x-demo"));
         mediaTypes.forEach(configurer::mediaType);
         //第二种：添加自定义的内容协议:需要注意的是，
-        //如果手动地添加了协议，则默认的协议将不会自动的加入：默认且不支持自定义加入多个，只能实现一个
+        //如果手动地添加了协议，则"默认"(就是default指一个defaultNegotiationStrategy)的协议将不会自动的加入：默认且不支持自定义加入多个，只能实现一个
         configurer.defaultContentTypeStrategy(new CustomerContentNegotiationStrategy());
     }
 }

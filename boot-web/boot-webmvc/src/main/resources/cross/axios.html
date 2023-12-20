@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>跨域请求示例</title>
+    <!-- 引入 Axios 库 -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<h1>跨域请求示例</h1>
+<!-- 发送跨域请求的按钮 -->
+<button id="sendCrossOriginRequestBtn">发送跨域请求</button>
+
+<script>
+    // 当页面加载完成后执行
+    document.addEventListener("DOMContentLoaded", function() {
+        // 注册发送跨域请求按钮的点击事件处理函数
+        document.getElementById("sendCrossOriginRequestBtn").addEventListener("click", function() {
+            // 使用 Axios 发送跨域请求
+            axios({
+                method: 'get',
+                url: 'http://example.com/api/data',
+                withCredentials: true // 允许跨域请求携带 cookie
+            })
+                .then(function(response) {
+                    // 处理响应数据
+                    console.log(response.data);
+                })
+                .catch(function(error) {
+                    // 处理错误
+                    console.error(error);
+                });
+        });
+    });
+</script>
+</body>
+</html>
