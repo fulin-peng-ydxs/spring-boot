@@ -1,16 +1,15 @@
 package web.mvc.controller;
 
-import org.apache.tomcat.util.net.openssl.OpenSSLUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import validator.ValidatorService;
 import validator.model.ValidateResult;
+import web.mvc.model.annotations.proxy.EntityValid;
 import web.mvc.model.entity.User;
 import web.mvc.model.web.response.Response;
 import web.mvc.model.web.response.ResponseStatus;
-
 import javax.validation.Valid;
 import java.util.List;
 
@@ -75,4 +74,19 @@ public class ValidateController {
         return Response.success();
     }
 
+
+    @PostMapping("/validatorService/proxy")
+    public Response validatorServiceProxy(@EntityValid @RequestBody User user){
+        return Response.success();
+    }
+
+    @PostMapping("/validatorService/proxy/list")
+    public Response validatorServiceProxyList(@EntityValid @RequestBody  List<User> users){
+        return Response.success();
+    }
+
+    @PostMapping("/validatorService/proxy/null")
+    public Response validatorServiceProxyNull(@EntityValid User user){
+        return Response.success();
+    }
 }

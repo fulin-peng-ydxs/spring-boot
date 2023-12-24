@@ -75,7 +75,7 @@ public class ValidatorService {
      * 2023/12/23 19:21
      * @author pengshuaifeng
      */
-    public List<ValidateResult> validates(List<?> objects){
+    public List<ValidateResult> validates(Collection<?> objects){
         return validates(objects,false);
     }
 
@@ -87,7 +87,7 @@ public class ValidatorService {
      * 2023/12/23 19:21
      * @author pengshuaifeng
      */
-    public List<ValidateResult> validates(List<?> objects, boolean isThrow){
+    public List<ValidateResult> validates(Collection<?> objects, boolean isThrow){
         LinkedList<ValidateResult> validateResults = new LinkedList<>();
         for (Object object : objects) {
             ValidateResult validateResult = validate(defaultValidator, object, defaultErrorPrefix, false);
