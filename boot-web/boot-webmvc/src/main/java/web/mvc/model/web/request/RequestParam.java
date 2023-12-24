@@ -1,5 +1,6 @@
 package web.mvc.model.web.request;
 
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 /**
@@ -8,6 +9,7 @@ import lombok.Data;
  * 2023-06-21 15:31
  */
 @Data
+@ApiModel(value = "请求模型",discriminator = "param")
 public abstract class RequestParam <T>{
     private T body;
 }

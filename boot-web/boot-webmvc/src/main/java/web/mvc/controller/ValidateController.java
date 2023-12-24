@@ -1,8 +1,12 @@
 package web.mvc.controller;
 
+import org.apache.tomcat.util.net.openssl.OpenSSLUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+import validator.ValidatorService;
+import validator.model.ValidateResult;
 import web.mvc.model.entity.User;
 import web.mvc.model.web.response.Response;
 import web.mvc.model.web.response.ResponseStatus;
@@ -19,8 +23,12 @@ import java.util.List;
 @RequestMapping("/mvc/validate")
 public class ValidateController {
 
-    @PostMapping("/user/save")
-    public Response userSave(@Valid @RequestBody User user, BindingResult bindingResult){
+    @Autowired
+    private ValidatorService validatorService;
+
+
+    @PostMapping("/basic")
+    public Response basic(@Valid @RequestBody User user, BindingResult bindingResult){
         //获取校验错误集合，为空则没有错误
         List<FieldError> fieldErrors = bindingResult.getFieldErrors();
         if (!fieldErrors.isEmpty()) {
@@ -33,4 +41,38 @@ public class ValidateController {
         System.out.println(user);
         return Response.success();
     }
+
+
+    @PostMapping("/validatorService")
+    public Response validatorService(@RequestBody User user){
+//        ValidateResult validate = validatorService.validate(user);
+//        ValidateResult validate = validatorService.validate(user,true);
+        ValidateResult validate = validatorService.validate(user,",",false);
+        boolean status = validate.isStatus();
+        if(!status){
+            System.out.println(validate.getMessage());
+            for (ValidateResult.ValidateError error : validate.getErrors()) {
+                System.out.println(error);
+            }
+            return Response.custom(ResponseStatus.PARAMS_CHECK_FAILURE,validate);
+        }
+        return Response.success();
+    }
+
+    @PostMapping("/validatorService/list")
+    public Response validatorService(@RequestBody List<User> users){
+        List<ValidateResult> validates = validatorService.validates(users);
+//        List<ValidateResult> validates = validatorService.validates(users,true);
+        if (!validates.isEmpty()) {
+            for (ValidateResult validate : validates) {
+                System.out.println(validate.getMessage());
+                for (ValidateResult.ValidateError error : validate.getErrors()) {
+                    System.out.println(error);
+                }
+            }
+            return Response.custom(ResponseStatus.PARAMS_CHECK_FAILURE,validates);
+        }
+        return Response.success();
+    }
+
 }

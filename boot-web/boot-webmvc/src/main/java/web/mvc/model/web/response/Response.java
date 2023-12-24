@@ -1,11 +1,13 @@
 package web.mvc.model.web.response;
 
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 /**
  * 请求响应模型
  */
 @Data
+@ApiModel(value = "请求响应模型")
 public class Response {
 
 	private String status;

@@ -1,5 +1,6 @@
 package web.mvc.model.web.request;
 
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.ToString;
 
@@ -10,4 +11,5 @@ import lombok.ToString;
  */
 @Data
 @ToString(callSuper = true)
+@ApiModel(value = "简单请求模型",discriminator = "param")
 public class SimpleRequestParam<T> extends RequestParam<T>{ }

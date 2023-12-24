@@ -5,7 +5,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import web.mvc.model.web.response.Response;
+import web.mvc.model.web.response.ResponseStatus;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ValidationException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,15 +21,27 @@ import java.util.Map;
 public class ErrorHandler {
 
     /**
-     * json异常返回
+     * 通用异常返回
      * 2023/12/20 22:44
      * @author pengshuaifeng
      */
     @ResponseBody
     @ExceptionHandler(Exception.class)
-    public Response jsonHandleException(Exception e){
+    public Response handleException(Exception e){
         log.error("系统异常",e);
         return Response.failure();
+    }
+
+    /**
+     * 校验异常返回
+     * 2023/12/24 13:43
+     * @author pengshuaifeng
+     */
+    @ResponseBody
+    @ExceptionHandler(ValidationException.class)
+    public Response validationHandleException(Exception e){
+        log.error("系统校验异常",e);
+        return Response.custom(ResponseStatus.PARAMS_CHECK_FAILURE,e.getMessage());
     }
 
     /**
