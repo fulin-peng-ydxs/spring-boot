@@ -1,11 +1,15 @@
 package web.mvc.controller;
 
+import commons.validator.ValidatorService;
+import commons.validator.model.ValidateResult;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.*;
-import validator.ValidatorService;
-import validator.model.ValidateResult;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import web.mvc.model.annotations.proxy.EntityValid;
 import web.mvc.model.entity.User;
 import web.mvc.model.web.response.Response;
@@ -18,6 +22,7 @@ import java.util.List;
  * author: pengshuaifeng
  * 2023/12/20
  */
+@Api(tags = "业务功能-校验处理演示")
 @RestController
 @RequestMapping("/mvc/validate")
 public class ValidateController {

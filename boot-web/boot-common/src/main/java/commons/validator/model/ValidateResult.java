@@ -1,4 +1,4 @@
-package validator.model;
+package commons.validator.model;
 
 
 import lombok.AllArgsConstructor;

@@ -9,17 +9,13 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Service;
-import validator.ValidatorService;
-import validator.model.ValidateResult;
+import commons.validator.ValidatorService;
 import web.mvc.model.annotations.proxy.EntityValid;
-
 import javax.validation.ValidationException;
 import javax.validation.constraints.NotNull;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * 校验代理

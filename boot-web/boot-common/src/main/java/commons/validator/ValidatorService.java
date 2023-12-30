@@ -1,4 +1,4 @@
-package validator;
+package commons.validator;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.extern.slf4j.Slf4j;
@@ -8,7 +8,7 @@ import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ValidationUtils;
-import validator.model.ValidateResult;
+import commons.validator.model.ValidateResult;
 import javax.validation.ValidationException;
 import javax.validation.Validator;
 import java.util.*;

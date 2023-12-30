@@ -1,4 +1,4 @@
-package web.mvc.util;
+package commons.utils;
 
 import org.springframework.aop.framework.AdvisedSupport;
 import org.springframework.aop.framework.AopProxy;
