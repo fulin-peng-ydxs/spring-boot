@@ -1,7 +1,7 @@
 package web.mvc.controller;
 
 
-import commons.holder.ServletUtils;
+import commons.holder.ServletHolder;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +22,6 @@ public class MultipartController {
     public void download(@RequestParam String classPath){
         InputStream inputStream = MultipartController.class.getResourceAsStream(classPath);
         String fileName = classPath.substring(classPath.lastIndexOf("/") + 1);
-        ServletUtils.responseToOutStream(null,inputStream,0,fileName,null);
+        ServletHolder.responseToOutStream(null,inputStream,0,fileName,null);
     }
 }

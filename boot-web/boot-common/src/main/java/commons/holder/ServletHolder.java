@@ -19,7 +19,7 @@ import java.nio.charset.StandardCharsets;
  * @author pengshuaifeng
  * 2023/12/30
  */
-public class ServletUtils {
+public class ServletHolder {
 
     /**
      * 获取响应对象
