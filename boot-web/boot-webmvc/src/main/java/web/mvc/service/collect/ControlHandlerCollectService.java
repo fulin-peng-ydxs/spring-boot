@@ -2,9 +2,8 @@ package web.mvc.service.collect;
 
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationListener;
-import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Service;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
@@ -19,22 +18,53 @@ import java.util.Map;
  */
 @Slf4j
 @Service
-public class ControlHandlerCollectService  implements ApplicationListener<ContextRefreshedEvent> {
+public class ControlHandlerCollectService{
 
-    private final Map<String,HandlerMethod> controllerMethods=new HashMap<>();
+    @Autowired
+    private ApplicationContext context;
 
-    @Override
-    public void onApplicationEvent(ContextRefreshedEvent event) {
+    /**
+     * 控制器集
+     */
+    private volatile Map<String,HandlerMethod> controllerMethods;
+
+    /**
+     * 获取控制器集
+     * 2024/1/8 22:40
+     * @return 控制器集合
+     * <p>key为访问的url、value为HandlerMethod对象（封装了实际的控制器对象和方法描述信息）</p>
+     * @author pengshuaifeng
+     */
+    public Map<String,HandlerMethod> getControllerMethods(){
+        if(controllerMethods==null){
+            synchronized (ControlHandlerCollectService.class) {
+                if(controllerMethods == null) {
+                    controllerMethods = collect(context);
+                }
+            }
+        }
+        return controllerMethods;
+    }
+
+    /**
+     * 收集控制器
+     * 2024/1/8 22:40
+     * @author pengshuaifeng
+     * @param applicationContext web应用容器
+     * @return 控制器集合
+     * <p>key为访问的url、value为HandlerMethod对象（封装了实际的控制器对象和方法描述信息）</p>
+     */
+    public Map<String,HandlerMethod> collect(ApplicationContext applicationContext){
+        HashMap<String, HandlerMethod> controllerMethods = new HashMap<>();
         try {
             log.debug("正在收集系统接口信息");
-            ApplicationContext context = event.getApplicationContext();
-            Map<String, RequestMappingHandlerMapping> contextBeansOfType = context.getBeansOfType(RequestMappingHandlerMapping.class);
+            Map<String, RequestMappingHandlerMapping> contextBeansOfType = applicationContext.getBeansOfType(RequestMappingHandlerMapping.class);
             RequestMappingHandlerMapping controllerMapping;
             if(contextBeansOfType.size()>0) {
                 if(contextBeansOfType.size()>1){
-                    controllerMapping=context.getBean("requestMappingHandlerMapping",RequestMappingHandlerMapping.class);
+                    controllerMapping=applicationContext.getBean("requestMappingHandlerMapping",RequestMappingHandlerMapping.class);
                 }else{
-                    controllerMapping=context.getBean(RequestMappingHandlerMapping.class);
+                    controllerMapping=applicationContext.getBean(RequestMappingHandlerMapping.class);
                 }
                 controllerMapping.getHandlerMethods().forEach((key,value)->{
                     String path = key.getPatternsCondition().getPatterns().stream().findFirst().get();
@@ -46,6 +76,7 @@ public class ControlHandlerCollectService  implements ApplicationListener<Contex
         } catch (Exception e) {
             log.error("收集系统接口资源异常:",e);
         }
+        return controllerMethods;
     }
 
 }
