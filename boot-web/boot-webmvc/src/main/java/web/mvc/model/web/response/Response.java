@@ -10,9 +10,9 @@ import lombok.Data;
 @ApiModel(value = "请求响应模型")
 public class Response {
 
-	private String status;
-	private String message;
-	private Object body;
+	private String status;  //响应状态
+	private String message; //响应消息
+	private Object body; //响应内容
 
 	public Response(String status, String msg, Object body) {
 		this.status = status;
@@ -48,6 +48,14 @@ public class Response {
 
 	public static Response failure(){
 		return new Response(ResponseStatus.ERROR,null);
+	}
+
+	public static Response business(Object body){
+		return new Response(ResponseStatus.BUSINESS_FAILURE,body);
+	}
+
+	public static Response business(){
+		return new Response(ResponseStatus.BUSINESS_FAILURE,null);
 	}
 
 	/**

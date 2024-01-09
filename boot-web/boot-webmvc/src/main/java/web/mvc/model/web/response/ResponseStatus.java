@@ -12,9 +12,11 @@ public enum ResponseStatus {
 
     SUCCESS("SUCCESS","请求成功"),
 
-    ERROR("ERROR","系统异常"),
+    ERROR("ERROR","系统异常，请重试"),
 
-    PARAMS_CHECK_FAILURE("PARAM_CHECK_FAILURE","参数校验不通过");
+    PARAMS_CHECK_FAILURE("PARAM_CHECK_FAILURE","参数校验不通过"),
+
+    BUSINESS_FAILURE("BUSINESS_FAILURE","系统业务异常，请联系管理员");
 
     private final String status;
 
