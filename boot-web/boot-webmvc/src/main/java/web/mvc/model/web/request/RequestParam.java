@@ -1,6 +1,7 @@
 package web.mvc.model.web.request;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -11,5 +12,7 @@ import lombok.Data;
 @Data
 @ApiModel(value = "请求模型",discriminator = "param")
 public abstract class RequestParam <T>{
+
+    @ApiModelProperty(value = "请求实体")
     private T body;
 }

@@ -1,6 +1,7 @@
 package web.mvc.model.web.request;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -10,13 +11,16 @@ import lombok.ToString;
  * @author peng_fu_lin
  * 2023-06-21 15:28
  */
+
 @Data
-@EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "分页请求模型",discriminator = "param")
 public class PageParam<T>  extends RequestParam<T>{
 
-    private int page;
+    @ApiModelProperty(value = "页数",required = true,example = "1")
+    private int page=1;
 
-    private int pageSize;
+    @ApiModelProperty(value = "页大小",required = true,example = "10")
+    private int pageSize=10;
 }
