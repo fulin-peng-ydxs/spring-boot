@@ -2,6 +2,7 @@ package web.mvc.model.web.request;
 
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
@@ -10,6 +11,7 @@ import lombok.ToString;
  * 2023-06-21 15:28
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 @ApiModel(value = "分页请求模型",discriminator = "param")
 public class PageParam<T>  extends RequestParam<T>{
