@@ -53,6 +53,8 @@ public class DynamicFieldModel {
      */
     public static List<DynamicFieldModel> generate(Object value,List<String> ignoreFields,List<String> containFields){
         List<DynamicFieldModel> dynamicFieldModels = new LinkedList<>();
+        if(value.getClass()==Object.class)
+            return dynamicFieldModels;
         for (Field declaredField : value.getClass().getDeclaredFields()) {
             String fieldName = declaredField.getName();
             if(containFields!=null && !containFields.contains(fieldName)){
