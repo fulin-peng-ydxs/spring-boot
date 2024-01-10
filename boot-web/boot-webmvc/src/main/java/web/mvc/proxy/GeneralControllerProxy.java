@@ -38,7 +38,7 @@ public class GeneralControllerProxy {
      */
     @Before("(@within(org.springframework.stereotype.Controller) " +
             "|| @within(org.springframework.web.bind.annotation.RestController))")
-    public void beforeValid(JoinPoint joinPoint) {
+    public void before(JoinPoint joinPoint) {
         //获取方法参数
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         Method method = methodSignature.getMethod();  //代理方法
