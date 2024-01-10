@@ -18,22 +18,21 @@ import java.lang.reflect.Parameter;
 import java.util.Collection;
 
 /**
- * 校验代理
+ * 通用的控制器代理
  * @author fulin peng
  * 2023/8/3 0003 16:45
  */
 @Slf4j
 @Aspect
 @Service
-public class ValidateProxy {
+public class GeneralControllerProxy {
 
     @Autowired
     private ValidatorService validatorService;
 
 
-    //TODO 目前仅支持异常抛出方式响应
     /**
-     * Controller层的参数校验（类有@controller注解）
+     * 前置处理
      * @author fulin peng
      * 2023/8/3 0003 17:41
      */
@@ -42,7 +41,20 @@ public class ValidateProxy {
     public void beforeValid(JoinPoint joinPoint) {
         //获取方法参数
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
-        Method method = methodSignature.getMethod();
+        Method method = methodSignature.getMethod();  //代理方法
+        Object[] args = joinPoint.getArgs(); //代理方法参数
+        // 参数校验
+        validate(method,args);
+    }
+
+
+    /**
+     * 参数校验
+     * 2024/1/10 0010 18:17
+     * @author fulin-peng
+     */
+    //TODO 目前仅支持异常抛出方式响应，后面是否能够基于注解本身去动态选择处理方式
+    public void validate(Method method,Object[] args){
         Parameter[] parameters = method.getParameters();
         //遍历每个方法参数，进行校验处理
         for (int i = 0; i < parameters.length; i++) {
@@ -50,7 +62,7 @@ public class ValidateProxy {
             //处理具有EntityValid注解标识的参数
             EntityValid annotation = AnnotationUtils.findAnnotation(parameter, EntityValid.class);
             if(annotation!=null){
-                Object targetArg=joinPoint.getArgs()[i];
+                Object targetArg=args[i];
                 //校验对象是否为空
                 if(targetArg==null){
                     if (!annotation.required()) {

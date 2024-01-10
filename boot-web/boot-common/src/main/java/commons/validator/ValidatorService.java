@@ -1,6 +1,7 @@
 package commons.validator;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import java.util.*;
  * @author pengshuaifeng
  * 2023/12/22
  */
+@Getter
 @Slf4j
 @Service
 public class ValidatorService {
