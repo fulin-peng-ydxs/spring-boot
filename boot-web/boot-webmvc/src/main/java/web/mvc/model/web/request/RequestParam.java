@@ -11,7 +11,7 @@ import lombok.Data;
  */
 @Data
 @ApiModel(value = "请求模型",discriminator = "param")
-public abstract class RequestParam <T>{
+public  class RequestParam <T>{
 
     @ApiModelProperty(value = "请求实体")
     private T body;
