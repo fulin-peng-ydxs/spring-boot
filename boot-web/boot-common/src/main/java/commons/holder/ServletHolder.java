@@ -40,6 +40,16 @@ public class ServletHolder {
     }
 
     /**
+     * 获取请求头信息
+     * 2024/1/11 0011 10:00
+     * @author fulin-peng
+     */
+    public static String getRequestHeader(String headName) {
+        return getRequest().getHeader(headName);
+    }
+
+
+    /**
      * 获取请求会话
      * 2023/12/30 12:06
      * @author pengshuaifeng
