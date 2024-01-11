@@ -5,8 +5,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import web.mvc.model.web.request.PageParam;
 
-import java.util.List;
-
 /**
  * 业务分页请求模型
  *
