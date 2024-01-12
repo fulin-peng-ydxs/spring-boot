@@ -3,7 +3,7 @@ package web.mvc.model.web.request.business;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import web.mvc.model.web.request.PageParam;
+import web.mvc.model.web.request.PageRequestParam;
 
 /**
  * 业务分页请求模型
@@ -16,7 +16,7 @@ import web.mvc.model.web.request.PageParam;
 public class BusinessPageRequestParam<T,I> {
 
     @ApiModelProperty(value = "业务基础参数")
-    private PageParam<T> pageRequestParam;
+    private PageRequestParam<T> pageRequestParam;
 
     @ApiModelProperty(value = "业务配置参数")
     private BusinessParamConfig<I> businessParam;

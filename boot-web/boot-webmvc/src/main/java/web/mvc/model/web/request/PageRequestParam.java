@@ -16,7 +16,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "分页请求模型",discriminator = "param")
-public class PageParam<T>  extends RequestParam<T>{
+public class PageRequestParam<T>  extends RequestParam<T>{
 
     @ApiModelProperty(value = "页数",required = true,example = "1")
     private int page=1;
