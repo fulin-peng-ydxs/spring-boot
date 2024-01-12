@@ -16,7 +16,7 @@ import web.mvc.model.web.request.PageParam;
 public class BusinessPageRequestParam<T,I> {
 
     @ApiModelProperty(value = "业务基础参数")
-    private PageParam<T> pageParam;
+    private PageParam<T> pageRequestParam;
 
     @ApiModelProperty(value = "业务配置参数")
     private BusinessParamConfig<I> businessParam;
