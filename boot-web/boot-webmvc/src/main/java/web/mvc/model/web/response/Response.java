@@ -1,6 +1,7 @@
 package web.mvc.model.web.response;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -10,8 +11,11 @@ import lombok.Data;
 @ApiModel(value = "请求响应模型")
 public class Response {
 
+	@ApiModelProperty(value = "响应状态",required = true)
 	private String status;  //响应状态
+	@ApiModelProperty(value = "响应消息",required = true)
 	private String message; //响应消息
+	@ApiModelProperty(value = "响应内容")
 	private Object body; //响应内容
 
 	public Response(String status, String msg, Object body) {
