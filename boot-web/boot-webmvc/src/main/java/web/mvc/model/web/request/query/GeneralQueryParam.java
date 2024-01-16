@@ -1,14 +1,13 @@
-package web.mvc.model.web.request.business;
+package web.mvc.model.web.request.query;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
 import java.util.List;
 
 @Data
-@ApiModel(value = "业务参数配置模型")
-public  class BusinessParamConfig<I> {
+@ApiModel(value = "通用查询模型")
+public  class GeneralQueryParam<I> {
 
     @ApiModelProperty(value = "业务id集合")
     private List<I> ids;
