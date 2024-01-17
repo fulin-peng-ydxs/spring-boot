@@ -15,9 +15,9 @@ import web.mvc.model.web.request.PageRequestParam;
 @ApiModel(value = "查询请求模型")
 public class QueryRequestParam<B,Q> {
 
-    @ApiModelProperty(value = "分页模型")
+    @ApiModelProperty(value = "分页参数")
     private PageRequestParam<B> page;
 
-    @ApiModelProperty(value = "查询模型")
+    @ApiModelProperty(value = "查询参数")
     private Q query;
 }

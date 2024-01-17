@@ -9,7 +9,7 @@ import java.util.List;
 @ApiModel(value = "通用查询模型")
 public  class GeneralQueryParam<I> {
 
-    @ApiModelProperty(value = "业务id集合")
+    @ApiModelProperty(value = "业务id集")
     private List<I> ids;
 
 }
