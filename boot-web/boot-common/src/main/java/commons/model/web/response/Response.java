@@ -1,4 +1,4 @@
-package web.mvc.model.web.response;
+package commons.model.web.response;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

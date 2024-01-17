@@ -1,5 +1,9 @@
 package web.mvc.controller;
 
+import commons.model.annotations.proxy.EntityValid;
+import commons.model.entity.User;
+import commons.model.web.response.Response;
+import commons.model.web.response.ResponseStatus;
 import commons.validator.ValidatorService;
 import commons.validator.model.ValidateResult;
 import io.swagger.annotations.Api;
@@ -10,10 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import web.mvc.model.annotations.proxy.EntityValid;
-import web.mvc.model.entity.User;
-import web.mvc.model.web.response.Response;
-import web.mvc.model.web.response.ResponseStatus;
+
 import javax.validation.Valid;
 import java.util.List;
 

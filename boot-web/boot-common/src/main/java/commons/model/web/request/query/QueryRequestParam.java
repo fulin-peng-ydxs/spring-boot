@@ -1,9 +1,9 @@
-package web.mvc.model.web.request.query;
+package commons.model.web.request.query;
 
+import commons.model.web.request.PageRequestParam;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import web.mvc.model.web.request.PageRequestParam;
 
 /**
  * 查询请求模型

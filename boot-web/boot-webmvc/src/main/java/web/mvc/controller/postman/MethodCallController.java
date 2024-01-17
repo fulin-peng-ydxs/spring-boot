@@ -1,6 +1,7 @@
 package web.mvc.controller.postman;
 
 
+import commons.model.web.response.Response;
 import commons.utils.JsonUtils;
 import commons.utils.ProxyUtils;
 import io.swagger.annotations.Api;
@@ -9,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.bind.annotation.*;
-import web.mvc.model.web.response.Response;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;

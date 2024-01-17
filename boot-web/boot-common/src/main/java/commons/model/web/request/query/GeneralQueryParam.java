@@ -1,8 +1,9 @@
-package web.mvc.model.web.request.query;
+package commons.model.web.request.query;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+
 import java.util.List;
 
 @Data

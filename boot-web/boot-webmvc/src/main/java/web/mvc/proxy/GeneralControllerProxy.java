@@ -1,5 +1,7 @@
 package web.mvc.proxy;
 
+import commons.model.annotations.proxy.EntityValid;
+import commons.validator.ValidatorService;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -9,8 +11,6 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Service;
-import commons.validator.ValidatorService;
-import web.mvc.model.annotations.proxy.EntityValid;
 import javax.validation.ValidationException;
 import javax.validation.constraints.NotNull;
 import java.lang.reflect.Method;

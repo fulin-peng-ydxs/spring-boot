@@ -1,11 +1,12 @@
 package web.mvc.error;
 
+import commons.model.web.response.Response;
+import commons.model.web.response.ResponseStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
-import web.mvc.model.web.response.Response;
-import web.mvc.model.web.response.ResponseStatus;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ValidationException;
 import java.util.HashMap;

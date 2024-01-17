@@ -1,4 +1,4 @@
-package web.mvc.model.annotations.proxy;
+package commons.model.annotations.proxy;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

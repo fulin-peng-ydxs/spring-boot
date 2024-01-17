@@ -1,4 +1,4 @@
-package web.mvc.model.entity;
+package commons.model.entity;
 
 
 import io.swagger.annotations.ApiModel;

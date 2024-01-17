@@ -1,4 +1,4 @@
-package web.mvc.model.web.request;
+package commons.model.web.request;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

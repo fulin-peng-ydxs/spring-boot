@@ -1,4 +1,4 @@
-package web.mvc.model.web.response;
+package commons.model.web.response;
 
 import lombok.Getter;
 
