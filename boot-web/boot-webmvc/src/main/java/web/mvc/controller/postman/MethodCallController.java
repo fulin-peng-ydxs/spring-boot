@@ -36,7 +36,7 @@ public class MethodCallController {
             notes ="serviceName：为所要调用服务名称（必填）\n"
                     +"serviceMethod：为所要调用的服务的具体方法（必填）\n"
                     +"methodParam：为方法的参数值（数组格式，按照前后顺序匹配，没有参数则不用填！如果参数是对象，请用json方式传入)\n"
-                    +"methodParamClass：为方法的参数类型（数组格式，按照前后顺序匹配，没有参数则不用填！例如：[String.class]、[String.class,Integer.class,{}]）"
+                    +"methodParamClass：为方法的参数类型（数组格式，按照前后顺序匹配，没有参数则不用填！例如：[java.lang.String]、[java.lang.String,java.lang.Integer,{}]）"
     )
     @RequestMapping(value = { "/call"}, method = { RequestMethod.POST })
     public Response methodCall(@RequestParam("proxyType") boolean proxyType, @RequestBody Map<String,Object> paramMap){
