@@ -38,15 +38,15 @@ public class MethodCallController {
                     +"methodParam：为方法的参数值（数组格式，按照前后顺序匹配，没有参数则不用填！如果参数是对象，请用json方式传入)\n"
                     +"methodParamClass：为方法的参数类型（数组格式，按照前后顺序匹配，没有参数则不用填！例如：[String.class]、[String.class,Integer.class,{}]）"
     )
-    @RequestMapping(value = { "/call/{proxyType}" }, method = { RequestMethod.POST })
-    public Response methodCall(@PathVariable String proxyType, @RequestBody Map<String,Object> paramMap){
+    @RequestMapping(value = { "/call"}, method = { RequestMethod.POST })
+    public Response methodCall(@RequestParam("proxyType") boolean proxyType, @RequestBody Map<String,Object> paramMap){
         log.debug("进入-服务方法调用控制器：{}/{}",proxyType,paramMap);
         try {
             String serviceName =paramMap.get("serviceName").toString();
             String serviceMethodName = paramMap.get("serviceMethod").toString();
             //获取服务对象
             Object serviceObjet = context.getBean(serviceName);
-            if(proxyType.equals("basic")){   // 不用代理对象
+            if(proxyType){   // 不用代理对象
                 serviceObjet= ProxyUtils.getTarget(serviceObjet);
             }
             Class<?> serviceObjectClass = serviceObjet.getClass();
