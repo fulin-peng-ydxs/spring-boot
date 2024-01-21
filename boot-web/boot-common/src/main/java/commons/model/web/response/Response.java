@@ -1,5 +1,6 @@
 package commons.model.web.response;
 
+import commons.model.exception.ExceptionType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -67,6 +68,14 @@ public class Response {
 	 * 2023/12/20 21:42
 	 * @author pengshuaifeng
 	 */
+	public static Response custom(ExceptionType exceptionType, Object body){
+		return new Response(exceptionType.getValue(),exceptionType.getMessage(),body);
+	}
+
+	public static Response custom(ExceptionType exceptionType,String message,Object body){
+		return new Response(exceptionType.getValue(),message,body);
+	}
+
 	public static Response custom(ResponseStatus responseStatus,Object body){
 		return new Response(responseStatus,body);
 	}

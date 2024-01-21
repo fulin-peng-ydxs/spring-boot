@@ -9,5 +9,24 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>boot-common</artifactId>
+    <properties>
+        <poi.version>5.2.5</poi.version>
+        <log4j-2-slf4j.version>2.17.0</log4j-2-slf4j.version>
+    </properties>
+
+    <dependencies>
+        <!--poi：核心依赖-->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>${poi.version}</version>
+        </dependency>
+
+        <dependency> <!--poi使用的是log4j2，需要提供的slf4j桥接-->
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-to-slf4j</artifactId>
+            <version>${log4j-2-slf4j.version}</version>
+        </dependency>
+    </dependencies>
 
 </project>

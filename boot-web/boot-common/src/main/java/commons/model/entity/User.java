@@ -3,7 +3,9 @@ package commons.model.entity;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -15,6 +17,8 @@ import javax.validation.constraints.NotNull;
  * 2023/12/20
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @ApiModel("用户模型")
 public class User {
 

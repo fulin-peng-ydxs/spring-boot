@@ -1,5 +1,7 @@
 package commons.validator;
 
+import commons.model.exception.ExceptionType;
+import commons.model.exception.GeneralBusinessException;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -10,7 +12,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ValidationUtils;
 import commons.validator.model.ValidateResult;
-import javax.validation.ValidationException;
 import javax.validation.Validator;
 import java.util.*;
 /**
@@ -42,7 +43,6 @@ public class ValidatorService {
      * 校验
      * @param object 待校验的对象：支持一般实体和实体集合单个校验
      * @param isThrow 是否抛出异常
-     * @throws ValidationException
      * 2023/12/23 19:21
      * @author pengshuaifeng
      */
@@ -56,7 +56,7 @@ public class ValidatorService {
                     continue;
                 }
                 if(isThrow){
-                    throw new ValidationException(validateResult.getMessage());
+                    throw new GeneralBusinessException(ExceptionType.PARAMS_CHECK_FAILURE,validateResult.getMessage());
                 }else{
                     return validateResult;
                 }
@@ -64,7 +64,7 @@ public class ValidatorService {
         }else{
             validateResult = validate(defaultValidator, object, defaultErrorPrefix, false);
             if (!validateResult.isStatus() && isThrow) {
-                throw new ValidationException(validateResult.getMessage());
+                throw new GeneralBusinessException(ExceptionType.PARAMS_CHECK_FAILURE,validateResult.getMessage());
             }
         }
         return validateResult;
@@ -73,7 +73,6 @@ public class ValidatorService {
     /**
      * 校验
      * @param objects 待校验的对象：实体集合
-     * @throws ValidationException
      * 2023/12/23 19:21
      * @author pengshuaifeng
      */
@@ -85,7 +84,6 @@ public class ValidatorService {
      * 校验
      * @param objects 待校验的对象：实体集合
      * @param isThrow 是否抛出异常，抛出异常会打断校验
-     * @throws ValidationException
      * 2023/12/23 19:21
      * @author pengshuaifeng
      */
@@ -95,7 +93,7 @@ public class ValidatorService {
             ValidateResult validateResult = validate(defaultValidator, object, defaultErrorPrefix, false);
             if (!validateResult.isStatus()) {
                 if(isThrow){
-                    throw new ValidationException(validateResult.getMessage());
+                    throw new GeneralBusinessException(ExceptionType.PARAMS_CHECK_FAILURE,validateResult.getMessage());
                 }else{
                     validateResults.add(validateResult);
                 }

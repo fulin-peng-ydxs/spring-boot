@@ -1,6 +1,7 @@
 package commons.holder;
 
 
+import commons.model.web.mime.MimeType;
 import commons.utils.JsonUtils;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -94,7 +95,7 @@ public class ServletHolder {
             String encodedFilename = URLEncoder.encode(fileName, StandardCharsets.UTF_8.toString());
             response.setHeader("Content-Disposition", "attachment; filename*=UTF-8''" + encodedFilename);
             //2.设置内容的类型&大小
-            response.setContentType(mimeType==null?"application/octet-stream":mimeType);
+            response.setContentType(mimeType==null? MimeType.APPLICATION_OCTET_STREAM :mimeType);
             response.setHeader("Content-Length", Integer.toString(content.length));
             //2.写入内容到响应流&刷新
             response.getOutputStream().write(content);

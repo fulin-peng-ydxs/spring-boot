@@ -1,31 +1,29 @@
-package web.mvc.proxy;
+package web.mvc.proxy.before;
 
-import commons.model.annotations.proxy.EntityValid;
+
+import commons.model.annotations.validate.EntityValid;
+import commons.model.exception.ExceptionType;
+import commons.model.exception.GeneralBusinessException;
 import commons.validator.ValidatorService;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.AnnotationUtils;
-import org.springframework.stereotype.Service;
-import javax.validation.ValidationException;
+import org.springframework.stereotype.Component;
 import javax.validation.constraints.NotNull;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.Collection;
 
 /**
- * 通用的控制器代理
- * @author fulin peng
- * 2023/8/3 0003 16:45
+ * 控制器后置处理器
+ *
+ * @author pengshuaifeng
+ * 2024/1/20
  */
-@Slf4j
-@Aspect
-@Service
-public class GeneralControllerProxy {
+@Component
+public class ControllerBeforeExecutor {
 
     @Autowired
     private ValidatorService validatorService;
@@ -36,17 +34,13 @@ public class GeneralControllerProxy {
      * @author fulin peng
      * 2023/8/3 0003 17:41
      */
-    @Before("(@within(org.springframework.stereotype.Controller) " +
-            "|| @within(org.springframework.web.bind.annotation.RestController))")
-    public void before(JoinPoint joinPoint) {
-        //获取方法参数
+    public Object before(JoinPoint joinPoint) {
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
-        Method method = methodSignature.getMethod();  //代理方法
-        Object[] args = joinPoint.getArgs(); //代理方法参数
-        // 参数校验
-        validate(method,args);
+        Method method = methodSignature.getMethod();
+        //参数校验
+        validate(method,joinPoint.getArgs());
+        return null;
     }
-
 
     /**
      * 参数校验
@@ -54,7 +48,7 @@ public class GeneralControllerProxy {
      * @author fulin-peng
      */
     //TODO 目前仅支持异常抛出方式响应，后面是否能够基于注解本身去动态选择处理方式
-    public void validate(Method method,Object[] args){
+    public void validate(Method method, Object[] args){
         Parameter[] parameters = method.getParameters();
         //遍历每个方法参数，进行校验处理
         for (int i = 0; i < parameters.length; i++) {
@@ -68,12 +62,12 @@ public class GeneralControllerProxy {
                     if (!annotation.required()) {
                         continue;
                     }
-                    String message=null;
+                    String message;
                     NotNull notNull = AnnotationUtils.findAnnotation(parameter, NotNull.class);
                     if(notNull!=null){
                         message=notNull.message();
                     }else{
-                        String paramName=null;
+                        String paramName;
                         ApiModelProperty apiModelProperty = AnnotationUtils.findAnnotation(parameter, ApiModelProperty.class);
                         if(apiModelProperty!=null){
                             paramName=apiModelProperty.value();
@@ -82,7 +76,7 @@ public class GeneralControllerProxy {
                         }
                         message="参数\""+paramName+"\"不能为空";
                     }
-                    throw new ValidationException(message);
+                    throw new GeneralBusinessException(ExceptionType.PARAMS_CHECK_FAILURE,message);
                 }else{ //校验对象不为空，则调用校验器服务进行校验
                     if (targetArg instanceof Collection) {
                         validatorService.validates(((Collection<?>)targetArg),true);
@@ -93,4 +87,7 @@ public class GeneralControllerProxy {
             }
         }
     }
+
+
+
 }

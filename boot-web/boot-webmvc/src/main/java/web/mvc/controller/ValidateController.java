@@ -1,9 +1,9 @@
 package web.mvc.controller;
 
-import commons.model.annotations.proxy.EntityValid;
+import commons.model.annotations.validate.EntityValid;
 import commons.model.entity.User;
+import commons.model.exception.ExceptionType;
 import commons.model.web.response.Response;
-import commons.model.web.response.ResponseStatus;
 import commons.validator.ValidatorService;
 import commons.validator.model.ValidateResult;
 import io.swagger.annotations.Api;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import javax.validation.Valid;
 import java.util.List;
 
@@ -41,7 +40,7 @@ public class ValidateController {
             fieldErrors.forEach(value->{
                 errorBuilder.append(value.getDefaultMessage()).append("|");
             });
-            return Response.custom(ResponseStatus.PARAMS_CHECK_FAILURE,errorBuilder.toString());
+            return Response.custom(ExceptionType.PARAMS_CHECK_FAILURE,errorBuilder.toString());
         }
         System.out.println(user);
         return Response.success();
@@ -59,7 +58,7 @@ public class ValidateController {
             for (ValidateResult.ValidateError error : validate.getErrors()) {
                 System.out.println(error);
             }
-            return Response.custom(ResponseStatus.PARAMS_CHECK_FAILURE,validate);
+            return Response.custom(ExceptionType.PARAMS_CHECK_FAILURE,validate);
         }
         return Response.success();
     }
@@ -75,7 +74,7 @@ public class ValidateController {
                     System.out.println(error);
                 }
             }
-            return Response.custom(ResponseStatus.PARAMS_CHECK_FAILURE,validates);
+            return Response.custom(ExceptionType.PARAMS_CHECK_FAILURE,validates);
         }
         return Response.success();
     }
