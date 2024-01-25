@@ -28,6 +28,7 @@
         <module>boot-web</module>
         <module>boot-aop</module>
         <module>boot-swagger</module>
+        <module>boot-actuator</module>
     </modules>
     <modelVersion>4.0.0</modelVersion>
 
