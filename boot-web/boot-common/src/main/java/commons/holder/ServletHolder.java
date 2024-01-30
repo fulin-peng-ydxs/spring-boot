@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.net.InetSocketAddress;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
@@ -77,6 +78,21 @@ public class ServletHolder {
     public static ServletRequestAttributes getRequestAttributes() {
         RequestAttributes attributes = RequestContextHolder.getRequestAttributes();
         return (ServletRequestAttributes) attributes;
+    }
+
+    /**
+     * 获取访问ip
+     * 2023/12/18 23:54
+     * @author pengshuaifeng
+     */
+    public static String getRequestIp(){
+        String header = getRequestHeader("X-Forwarded-For");
+        header=header==null?getRequestHeader( "X-Real-IP"):header;
+        String remoteAddress = getRequest().getRemoteAddr();
+        if(header==null && remoteAddress!=null){
+            header= remoteAddress;
+        }
+        return header;
     }
 
     /**
