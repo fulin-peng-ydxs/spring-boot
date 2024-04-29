@@ -1,6 +1,7 @@
 package commons.model.web.response;
 
 import commons.model.exception.ExceptionType;
+import commons.model.web.response.query.GeneralQueryResult;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -31,6 +32,12 @@ public class Response {
 		this.body = body;
 	}
 
+	public Response(ResponseStatus responseStatus,Object body,Number total) {
+		this.status = responseStatus.getStatus();
+		this.message = responseStatus.getMessage();
+		this.body = new GeneralQueryResult(body,total);
+	}
+
 	/**成功响应
 	 * 2023/5/10 0010-14:07
 	 * @author pengfulin
@@ -41,6 +48,10 @@ public class Response {
 
 	public static Response success(){
 		return new Response(ResponseStatus.SUCCESS, null);
+	}
+
+	public static  Response success(Object body,Number total){
+		return new Response(ResponseStatus.SUCCESS, body,total);
 	}
 
 	/**失败响应
