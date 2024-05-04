@@ -1,0 +1,27 @@
+server:
+  port: 8888
+
+spring:
+  #数据源配置
+  data:
+   mongodb:
+    # 主机地址
+    host: linux1
+    # 数据库
+    database: articledb
+    # 默认端口是27017
+    port: 27017
+    #也可以使用uri连接
+    #uri: mongodb://linux1:27017/articledb
+
+    # 副本集的连接字符串
+    #uri: mongodb://180.76.159.126:27017,180.76.159.126:27018,180.76.159.126:27019/articledb?connect=replicaSet&slaveOk=true&replicaSet=myrs
+    # 分片集群的连接字符串：自动选择路由节点
+    #uri: mongodb://180.76.159.126:27017,180.76.159.126:27117/articledb
+
+    # 用户认证连连接字符串
+    #uri: mongodb:///bobo:123456@180.76.159.126:27017,180.76.159.126:27117/articledb
+
+    #用户认证信息
+    password: 123456
+    username: bobo
