@@ -66,6 +66,10 @@ public class Response {
 		return new Response(ResponseStatus.ERROR,null);
 	}
 
+	public static Response failure(String msg){
+		return new Response(ResponseStatus.ERROR.getStatus(),msg,null);
+	}
+
 	public static Response business(Object body){
 		return new Response(ResponseStatus.BUSINESS_FAILURE,body);
 	}
