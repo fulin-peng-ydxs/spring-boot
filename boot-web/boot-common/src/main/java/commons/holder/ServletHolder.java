@@ -145,6 +145,15 @@ public class ServletHolder {
     }
 
     /**
+     * 请求响应：文件流
+     * 2024/5/15 0015 17:50
+     * @author fulin-peng
+     */
+    public static void responseToOutStream(byte[] content,String fileName,String mimeType){
+        responseToOutStream(null,content,fileName,mimeType);
+    }
+
+    /**
      * 请求响应：json
      * 2023/12/30 13:20
      * @author pengshuaifeng
