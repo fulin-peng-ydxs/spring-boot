@@ -122,6 +122,31 @@ public class ServletHolder {
     }
 
     /**
+     * 请求响应：文件流头设置
+     * 2023/12/30 13:18
+     * @param contentLength 文件字节大小
+     * @param fileName 文件响应名
+     * @param mimeType 文件响应类型
+     * @author pengshuaifeng
+     */
+    public static void responseToOutStreamForSetHeader(HttpServletResponse response,Integer contentLength,String fileName,String mimeType){
+        try {
+            response=response==null?getResponse():response;
+            //1.设置内容信息描述
+            //1.1文件名进行Url参数格式编码
+            String encodedFilename = URLEncoder.encode(fileName, StandardCharsets.UTF_8.toString());
+            response.setHeader("Content-Disposition", "attachment; filename*=UTF-8''" + encodedFilename);
+            //2.设置内容的类型&大小
+            response.setContentType(mimeType==null? MimeType.APPLICATION_OCTET_STREAM :mimeType);
+            response.setHeader("Content-Length", Integer.toString(contentLength));
+            //3.刷新响应数据
+            response.getOutputStream().flush();
+        } catch (Exception e) {
+            throw new RuntimeException("请求文件流响应异常",e);
+        }
+    }
+
+    /**
      * 请求响应：文件流
      * 2023/12/30 13:18
      * @param in 文件流
