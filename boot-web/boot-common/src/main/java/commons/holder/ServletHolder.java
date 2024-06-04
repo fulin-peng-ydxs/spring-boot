@@ -6,17 +6,17 @@ import commons.utils.JsonUtils;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.net.InetSocketAddress;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
 /**
- * web服务工具类
+ * "servlet工"具类
  *
  * @author pengshuaifeng
  * 2023/12/30
@@ -39,6 +39,42 @@ public class ServletHolder {
      */
     public static HttpServletRequest getRequest(){
         return getRequestAttributes().getRequest();
+    }
+
+    /**
+     * 获取请求url
+     * 2024/6/3 23:27
+     * @author pengshuaifeng
+     */
+    public static String getRequestUrl(){
+        return getRequest().getRequestURL().toString();
+    }
+
+    /**
+     * 获取请求uri
+     * 2024/6/3 23:27
+     * @author pengshuaifeng
+     */
+    public static String getRequestUri(){
+        return getRequest().getRequestURI();
+    }
+
+    /**
+     * 获取servlet路径
+     * 2024/6/4 22:24
+     * @author pengshuaifeng
+     */
+    public static String getServletPath(){
+        return getRequest().getServletPath();
+    }
+
+    /**
+     * 获取请求上下文
+     * 2024/6/3 23:32
+     * @author pengshuaifeng
+     */
+    public static String getServerContentPath(){
+        return getRequest().getContextPath();
     }
 
     /**
