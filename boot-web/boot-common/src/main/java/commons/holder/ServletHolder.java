@@ -3,6 +3,7 @@ package commons.holder;
 
 import commons.model.web.mime.MimeType;
 import commons.utils.JsonUtils;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -146,10 +147,10 @@ public class ServletHolder {
             //1.设置内容信息描述
               //1.1文件名进行Url参数格式编码
             String encodedFilename = URLEncoder.encode(fileName, StandardCharsets.UTF_8.toString());
-            response.setHeader("Content-Disposition", "attachment; filename*=UTF-8''" + encodedFilename);
+            response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename*=UTF-8''" + encodedFilename);
             //2.设置内容的类型&大小
             response.setContentType(mimeType==null? MimeType.APPLICATION_OCTET_STREAM :mimeType);
-            response.setHeader("Content-Length", Integer.toString(content.length));
+            response.setHeader(HttpHeaders.CONTENT_TYPE, Integer.toString(content.length));
             //2.写入内容到响应流&刷新
             response.getOutputStream().write(content);
             response.getOutputStream().flush();
@@ -225,7 +226,7 @@ public class ServletHolder {
     public static void responseToJson(Object obj,HttpServletResponse response){
         try {
             String responseJson = JsonUtils.getString(obj);
-            response.setContentType("application/json; charset=UTF-8");
+            response.setContentType(MimeType.APPLICATION_JSON);
             response.getWriter().write(responseJson);
         } catch (Exception e) {
             throw new RuntimeException("请求Json响应异常",e);
