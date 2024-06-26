@@ -7,7 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -15,10 +15,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
- * "servlet工"具类
- *
+ * "servlet工具类
  * @author pengshuaifeng
  * 2023/12/30
  */
@@ -84,9 +86,69 @@ public class ServletHolder {
      * @author fulin-peng
      */
     public static String getRequestHeader(String headName) {
-        return getRequest().getHeader(headName);
+        return getRequestHeader(headName,getRequest());
     }
 
+    public static String getRequestHeader(String headName,HttpServletRequest request) {
+        return request.getHeader(headName);
+    }
+
+    /**
+     * 获取请求参数
+     * 2024/6/26 0026 10:10
+     * @author fulin-peng
+     * @return 返回map集合
+     */
+    public static Map<String, String[]> getRequestParamMaps(HttpServletRequest request) {
+        return request.getParameterMap();
+    }
+
+    /**
+     * 获取请求参数
+     * 2024/6/26 0026 10:10
+     * @author fulin-peng
+     * @return 返回单个参数数组
+     */
+    public static String[] getRequestParams(String paramName,HttpServletRequest request) {
+        return getRequestParamMaps(request).get(paramName);
+    }
+
+    /**
+     * 获取请求参数
+     * 2024/6/26 0026 10:10
+     * @author fulin-peng
+     * @return 返回单个参数第一个值
+     */
+    public static String getRequestParam(String paramName,HttpServletRequest request) {
+        return request.getParameter(paramName);
+    }
+
+    /**
+     * 获取请求cookie
+     * 2024/6/26 0026 10:15
+     * @author fulin-peng
+     */
+    public static Cookie[] getCookies(HttpServletRequest request){
+        return request.getCookies();
+    }
+
+    /**
+     * 获取请求cookie键值对
+     * 2024/6/26 0026 10:15
+     * @author fulin-peng
+     */
+    public static Map<String, String> getCookieMap(HttpServletRequest request){
+        return Arrays.stream(getCookies(request)).collect(Collectors.toMap(Cookie::getName, Cookie::getValue));
+    }
+
+    /**
+     * 获取请求cookie值
+     * 2024/6/26 0026 10:15
+     * @author fulin-peng
+     */
+    public static String getCookieValue(String cookieName,HttpServletRequest request){
+        return getCookieMap(request).get(cookieName);
+    }
 
     /**
      * 获取请求会话
