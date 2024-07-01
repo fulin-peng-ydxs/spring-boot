@@ -232,11 +232,11 @@ public class ServletHolder {
      * @author pengshuaifeng
      */
     public static void responseToOutStream(HttpServletResponse response, InputStream in,int bufferSize,String fileName, String mimeType){
-        try {
+        try (InputStream temp=in){
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             byte[] buffer = new byte[bufferSize<=0?4096:bufferSize];
             int bytesRead;
-            while ((bytesRead = in.read(buffer)) != -1) {
+            while ((bytesRead = temp.read(buffer)) != -1) {
                 byteArrayOutputStream.write(buffer, 0, bytesRead);
             }
             responseToOutStream(response,byteArrayOutputStream.toByteArray(),fileName,mimeType);
