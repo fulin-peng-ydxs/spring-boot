@@ -195,31 +195,32 @@ public class ServletHolder {
     }
 
     /**
-     * 请求响应：文件流
+     * 请求响应：文件流头设置
      * 2023/12/30 13:18
-     * @param response 请求响应对象
-     * @param content 文件字节数据
+     * @param contentLength 文件字节大小
      * @param fileName 文件响应名
      * @param mimeType 文件响应类型
+     * @param preview 是否直接预览
      * @author pengshuaifeng
      */
-    public static void responseToOutStream(HttpServletResponse response,byte[] content,String fileName,String mimeType){
+    public static void responseToOutStreamForSetHeader(HttpServletResponse response,Integer contentLength,String fileName,String mimeType,boolean preview){
         try {
-            response=response==null?getResponse():response;
             //1.设置内容信息描述
-              //1.1文件名进行Url参数格式编码
+            //1.1文件名进行Url参数格式编码
             String encodedFilename = URLEncoder.encode(fileName, StandardCharsets.UTF_8.toString());
-            response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename*=UTF-8''" + encodedFilename);
+            response.setHeader(HttpHeaders.CONTENT_DISPOSITION, preview?"inline":"attachment; filename*=UTF-8''" + encodedFilename);
             //2.设置内容的类型&大小
             response.setContentType(mimeType==null? MimeType.APPLICATION_OCTET_STREAM :mimeType);
-            response.setHeader(HttpHeaders.CONTENT_TYPE, Integer.toString(content.length));
-            //2.写入内容到响应流&刷新
-            response.getOutputStream().write(content);
-            response.getOutputStream().flush();
+            response.setHeader(HttpHeaders.CONTENT_LENGTH, Integer.toString(contentLength));
         } catch (Exception e) {
             throw new RuntimeException("请求文件流响应异常",e);
         }
     }
+
+    public static void responseToOutStreamForSetHeader(Integer contentLength,String fileName,String mimeType,boolean preview){
+        responseToOutStreamForSetHeader(getResponse(),contentLength,fileName,mimeType,preview);
+    }
+
 
     /**
      * 请求响应：文件流
@@ -229,9 +230,10 @@ public class ServletHolder {
      * @param bufferSize 文件流读取缓存区大小
      * @param fileName 文件响应名
      * @param mimeType 文件响应类型
+     * @param preview 是否直接预览
      * @author pengshuaifeng
      */
-    public static void responseToOutStream(HttpServletResponse response, InputStream in,int bufferSize,String fileName, String mimeType){
+    public static void responseToOutStream(HttpServletResponse response, InputStream in,int bufferSize,String fileName, String mimeType,boolean preview){
         try (InputStream temp=in){
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             byte[] buffer = new byte[bufferSize<=0?4096:bufferSize];
@@ -239,10 +241,13 @@ public class ServletHolder {
             while ((bytesRead = temp.read(buffer)) != -1) {
                 byteArrayOutputStream.write(buffer, 0, bytesRead);
             }
-            responseToOutStream(response,byteArrayOutputStream.toByteArray(),fileName,mimeType);
+            responseToOutStream(response,byteArrayOutputStream.toByteArray(),fileName,mimeType,preview);
         } catch (Exception e) {
             throw new RuntimeException("请求文件流响应异常",e);
         }
+    }
+    public static void responseToOutStream(InputStream in,int bufferSize,String fileName, String mimeType,boolean preview){
+        responseToOutStream(null,in,bufferSize,fileName,mimeType,preview);
     }
 
     /**
@@ -250,35 +255,33 @@ public class ServletHolder {
      * 2024/5/15 0015 17:50
      * @author fulin-peng
      */
-    public static void responseToOutStream(byte[] content,String fileName,String mimeType){
-        responseToOutStream(null,content,fileName,mimeType);
+    public static void responseToOutStream(byte[] content,String fileName,String mimeType,boolean preview){
+        responseToOutStream(null,content,fileName,mimeType,preview);
     }
 
 
     /**
-     * 请求响应：文件流头设置
+     * 请求响应：文件流
      * 2023/12/30 13:18
-     * @param contentLength 文件字节大小
+     * @param response 请求响应对象
+     * @param content 文件字节数据
      * @param fileName 文件响应名
      * @param mimeType 文件响应类型
+     * @param preview 是否直接预览
      * @author pengshuaifeng
      */
-    public static void responseToOutStreamForSetHeader(HttpServletResponse response,Integer contentLength,String fileName,String mimeType){
+    public static void responseToOutStream(HttpServletResponse response,byte[] content,String fileName,String mimeType,boolean preview){
         try {
             response=response==null?getResponse():response;
-            //1.设置内容信息描述
-            //1.1文件名进行Url参数格式编码
-            String encodedFilename = URLEncoder.encode(fileName, StandardCharsets.UTF_8.toString());
-            response.setHeader("Content-Disposition", "attachment; filename*=UTF-8''" + encodedFilename);
-            //2.设置内容的类型&大小
-            response.setContentType(mimeType==null? MimeType.APPLICATION_OCTET_STREAM :mimeType);
-            response.setHeader("Content-Length", Integer.toString(contentLength));
-            //3.刷新响应数据
+            responseToOutStreamForSetHeader(response,content.length,fileName,mimeType,preview);
+            //3.写入内容到响应流&刷新
+            response.getOutputStream().write(content);
             response.getOutputStream().flush();
         } catch (Exception e) {
             throw new RuntimeException("请求文件流响应异常",e);
         }
     }
+
 
     /**
      * 请求响应：json

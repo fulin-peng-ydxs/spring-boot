@@ -79,7 +79,7 @@ public class ExcelControllerAfterExecutor extends ControllerAfterExecutor{
                     byte[] bytes = ExcelUtils.writeToBytes(Collections.singletonMap(excelDownload.sheetName(), rows),
                             Collections.singletonMap(excelDownload.sheetName(),header),excelDownload.headerIndex(),excelDownload.startRowIndex(),
                             excelDownload.startColIndex(),isXlsx ? ExcelUtils.ExcelType.XLSX : ExcelUtils.ExcelType.XLS, null);
-                    ServletHolder.responseToOutStream(null,bytes,excelDownload.fileName(),isXlsx?MimeType.APPLICATION_XLSX:MimeType.APPLICATION_XLS);
+                    ServletHolder.responseToOutStream(null,bytes,excelDownload.fileName(),isXlsx?MimeType.APPLICATION_XLSX:MimeType.APPLICATION_XLS,false);
                 }
             }
             return null;

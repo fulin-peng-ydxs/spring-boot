@@ -27,6 +27,6 @@ public class FileController {
     public void download(@ApiParam("类路径") @RequestParam String classPath){
         InputStream inputStream = FileController.class.getResourceAsStream(classPath);
         String fileName = classPath.substring(classPath.lastIndexOf("/") + 1);
-        ServletHolder.responseToOutStream(null,inputStream,0,fileName,null);
+        ServletHolder.responseToOutStream(null,inputStream,0,fileName,null,false);
     }
 }
