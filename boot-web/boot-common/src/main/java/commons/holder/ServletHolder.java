@@ -55,6 +55,12 @@ public class ServletHolder {
 
     /**
      * 获取请求uri
+     * POST /some/path.html HTTP/1.1
+     * /some/path.html
+     * GET http://foo.bar/a.html HTTP/1.0
+     * /a.html
+     * HEAD /xyz?a=b HTTP/1.1
+     * /xyz
      * 2024/6/3 23:27
      * @author pengshuaifeng
      */
