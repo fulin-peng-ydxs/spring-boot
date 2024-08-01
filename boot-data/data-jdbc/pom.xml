@@ -9,11 +9,24 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>data-jdbc</artifactId>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>jdbc-data_source-druid</module>
+    </modules>
 
     <dependencies>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.22</version>
+        </dependency>
+
     </dependencies>
 </project>

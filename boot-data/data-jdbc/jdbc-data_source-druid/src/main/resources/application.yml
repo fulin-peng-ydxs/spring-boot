@@ -1,0 +1,64 @@
+#============================================
+#
+# server config
+#
+#============================================
+server:
+  context-path: /druid_quick
+
+#============================================
+#
+# Spring config
+#
+#===========================================
+spring:
+
+  #============================================
+  #
+  # Data Source config
+  #
+  #============================================
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://10.100.100.95:3307/fullres?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&allowMultiQueries=true&allowPublicKeyRetrieval=true
+    username: fullres
+    password: fuLL@2023
+    type: com.alibaba.druid.pool.DruidDataSource
+
+    #============================================
+    #
+    # Data Pool Druid Config
+    #
+    #============================================
+    druid:
+      initial-size: 1  #初始化连接实例
+      max-active: 20  #最大连接实例
+      min-idle: 1  #最小连接实例
+      max-wait: 60000 #最长等待获取连接时间
+      async-init: true #异步初始化，如果有initialSize数量较多时，打开会加快应用启动时间
+      validation-query: select 'x' #检测连接是否有效的sql
+      test-on-borrow: false  #禁止申请连接时做validation-query
+      test-on-return: false #禁止归还连接时做validation-query
+      test-while-idle: true #空闲时间大于time-between-eviction-runs-millis做validation-query
+      time-between-eviction-runs-millis: 60000 #间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      min-evictable-idle-time-millis: 600000 #一个连接在池中最小生存的时间，单位是毫秒
+      pool-prepared-statements: true #缓存prepared-statements
+      max-open-prepared-statements: 20 #prepared-statements最大缓存数
+
+      aop-patterns: jdbc.data.source.druid  #监控spring-bean
+      web-stat-filter: #监控web
+        enabled: true
+        url-pattern: /*
+        exclusions: '*.js,*.css,*.ico,/druid/*'
+      stat-view-servlet: #web可视化访问配置
+        enabled: true
+        login-username: admin
+        login-password: Admin@gzzn123.
+        reset-enable: false
+        url-pattern: /druid/*
+      filters:  wall,stat #防火墙
+      filter:
+        stat: #sql统计
+          slow-sql-millis: 3000  #慢sql标准
+          log-slow-sql: true  #开启慢sql统计
+          merge-sql: true  #开启sql合并，便于统计查看
