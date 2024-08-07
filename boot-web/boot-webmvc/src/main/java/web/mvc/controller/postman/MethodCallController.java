@@ -33,7 +33,7 @@ public class MethodCallController {
 
 
     @ApiOperation(value="方法调用",produces = "application/json",
-            notes ="serviceName：为所要调用服务名称（必填）\n"
+            notes ="serviceName：为所要调用服务名称、serviceClass：为所要调用服务的类型，两者选其一，serviceClass优先\n"
                     +"serviceMethod：为所要调用的服务的具体方法（必填）\n"
                     +"methodParam：为方法的参数值（数组格式，按照前后顺序匹配，没有参数则不用填！如果参数是对象，请用json方式传入)\n"
                     +"methodParamClass：为方法的参数类型（数组格式，按照前后顺序匹配，没有参数则不用填！例如：[java.lang.String]、[java.lang.String,java.lang.Integer,{}]）"
@@ -42,10 +42,16 @@ public class MethodCallController {
     public Response methodCall(@RequestParam("proxyType") boolean proxyType, @RequestBody Map<String,Object> paramMap){
         log.debug("进入-服务方法调用控制器：{}/{}",proxyType,paramMap);
         try {
-            String serviceName =paramMap.get("serviceName").toString();
+            String serviceName =paramMap.get("serviceName")==null?null:paramMap.get("serviceName").toString();
             String serviceMethodName = paramMap.get("serviceMethod").toString();
+            String serviceClass = paramMap.get("serviceClass")==null?null:paramMap.get("serviceClass").toString();
             //获取服务对象
-            Object serviceObjet = context.getBean(serviceName);
+            Object serviceObjet;
+            if(serviceClass!=null){
+                serviceObjet = context.getBean(Class.forName(serviceClass));
+            }else{
+                serviceObjet = context.getBean(serviceName);
+            }
             if(proxyType){   // 不用代理对象
                 serviceObjet= ProxyUtils.getTarget(serviceObjet);
             }
