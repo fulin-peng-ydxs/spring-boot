@@ -7,15 +7,14 @@ import shiro.dao.UserDAO;
 import shiro.entity.Perms;
 import shiro.entity.User;
 import shiro.utils.SaltUtils;
+
 import java.util.List;
 
-//@Service("userService")
+@Service("userService")
 public class UserServiceImpl implements UserService {
-
 
     @Autowired
     private UserDAO userDAO;
-
 
     @Override
     public List<Perms> findPermsByRoleId(String id) {

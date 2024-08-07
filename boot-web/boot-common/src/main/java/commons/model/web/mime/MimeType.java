@@ -12,6 +12,7 @@ public class MimeType {
     //所有
     public static final String ALL = "*/*";
     //json
+    public final static String APPLICATION_JSON_UTF_8 = "application/json;charset=utf-8";
     public final static String APPLICATION_JSON = "application/json";
     //pdf
     public final static String APPLICATION_PDF = "application/pdf";

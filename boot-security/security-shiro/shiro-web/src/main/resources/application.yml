@@ -1,0 +1,29 @@
+server:
+  servlet:
+    encoding:
+      charset: utf-8
+  port: 8888
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:53306/shiro?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&allowMultiQueries=true&allowPublicKeyRetrieval=true
+    username: root
+    password: 123123
+    type: com.alibaba.druid.pool.DruidDataSource
+
+  redis:
+    host: 127.0.0.1
+    database: 0
+    port: 56379
+
+mybatis:
+  mapper-locations: /mapper/**.xml
+  type-aliases-package: shiro.entity
+
+logging:
+    level:
+      root: info
+      org:
+        apache:
+          shiro: debug

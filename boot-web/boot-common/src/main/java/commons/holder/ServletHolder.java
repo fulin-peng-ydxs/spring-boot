@@ -4,9 +4,11 @@ package commons.holder;
 import commons.model.web.mime.MimeType;
 import commons.utils.JsonUtils;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -295,9 +297,14 @@ public class ServletHolder {
      * @author pengshuaifeng
      */
     public static void responseToJson(Object obj,HttpServletResponse response){
+        responseToJson(obj,response,HttpStatus.OK);
+    }
+
+    public static void responseToJson(Object obj, HttpServletResponse response, HttpStatus status){
         try {
+            response.setStatus(status.value());
             String responseJson = JsonUtils.getString(obj);
-            response.setContentType(MimeType.APPLICATION_JSON);
+            response.setContentType(MimeType.APPLICATION_JSON_UTF_8);
             response.getWriter().write(responseJson);
         } catch (Exception e) {
             throw new RuntimeException("请求Json响应异常",e);
@@ -306,6 +313,46 @@ public class ServletHolder {
 
     public static void responseToJson(Object obj){
        responseToJson(obj,getResponse());
+    }
+
+    public static void responseToJson(Object obj,HttpStatus status){
+        responseToJson(obj,getResponse(),status);
+    }
+
+    /**
+     * 请求重定向
+     * 2024/8/5 21:31
+     * @author pengshuaifeng
+     */
+    public static void redirect(String redirectUrl,HttpServletResponse response){
+        response.setStatus(HttpStatus.FOUND.value());
+        response.setHeader(HttpHeaders.LOCATION,redirectUrl);
+    }
+
+    public static void redirect(String redirectUrl){
+        redirect(redirectUrl,getResponse());
+    }
+
+
+    /**
+     * 是否为Ajax请求
+     * 2024/8/5 20:25
+     * @author pengshuaifeng
+     */
+    public static boolean isAjaxRequest(){
+        String requestHeader = getRequestHeader("x-requested-with");
+        return requestHeader != null && requestHeader.equals("XMLHttpRequest");
+    }
+
+
+    /**
+     * 是否为json请求
+     * 2024/8/5 22:16
+     * @author pengshuaifeng
+     */
+    public static boolean isJsonRequest() {
+        String contentType = getRequestHeader(HttpHeaders.ACCEPT);
+        return isAjaxRequest() || contentType != null && (contentType.contains(MimeType.APPLICATION_JSON) || contentType.contains(MimeType.ALL));
     }
 
 }

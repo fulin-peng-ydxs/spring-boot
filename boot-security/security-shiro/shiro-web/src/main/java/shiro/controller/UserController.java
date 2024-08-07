@@ -1,4 +1,5 @@
 package shiro.controller;
+
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
@@ -14,13 +15,14 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+
+
 @Controller
 @RequestMapping("user")
 public class UserController {
 
-//    @Autowired
+    @Autowired
     private UserService userService;
-
 
     /**
      * 验证码方法
@@ -44,10 +46,10 @@ public class UserController {
     public String register(User user) {
         try {
             userService.register(user);
-            return "redirect:/login.jsp";
+            return "redirect:/login.html";
         }catch (Exception e){
             e.printStackTrace();
-            return "redirect:/register.jsp";
+            return "redirect:/register.html";
         }
     }
 
@@ -59,7 +61,7 @@ public class UserController {
     public String logout() {
         Subject subject = SecurityUtils.getSubject();
         subject.logout();//退出用户
-        return "redirect:/login.jsp";
+        return "redirect:/login.html";
     }
 
     /**
@@ -73,8 +75,8 @@ public class UserController {
             if (codes.equalsIgnoreCase(code)){
                 //获取主体对象
                 Subject subject = SecurityUtils.getSubject();
-                    subject.login(new UsernamePasswordToken(username, password));
-                    return "redirect:/index.jsp";
+                subject.login(new UsernamePasswordToken(username, password));
+                return "redirect:/index.html";
             }else{
                 throw new RuntimeException("验证码错误!");
             }
@@ -88,6 +90,6 @@ public class UserController {
             e.printStackTrace();
             System.out.println(e.getMessage());
         }
-        return "redirect:/login.jsp";
+        return "redirect:/login.html";
     }
 }
