@@ -14,5 +14,9 @@ spring:
 ##mybatis-plus配置
 mybatis-plus:
   mapper-locations: classpath*:/mapper/**/*.xml
+  global-config:
+      db-config:
+        capital-mode: true  #表名和字段均开启大写，以适应数据库大小写敏感配置
+
 
 
