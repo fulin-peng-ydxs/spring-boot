@@ -35,7 +35,7 @@ public class Response<T> {
 	public Response(ResponseStatus responseStatus,T body,Number total) {
 		this.status = responseStatus.getStatus();
 		this.message = responseStatus.getMessage();
-		this.body = (T)new GeneralQueryResult(body,total);
+		this.body = (T)new GeneralQueryResult<>(body,total);
 	}
 
 	/**成功响应
