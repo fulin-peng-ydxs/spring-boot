@@ -3,6 +3,7 @@ package swagger.configure;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
@@ -23,6 +24,9 @@ public class SwaggerConfig {
                 .apiInfo(apiInfo()) //配置swagger文档信息
                 .select()  //配置api的公开范围
                 .apis(RequestHandlerSelectors.basePackage("swagger.controller"))  //设置需要公开的api接口包范围
+                //设置指定包范围内的所有端点（路径）都开放。（省略也一样）
+                //*如果你想筛选哪些端点（路径）被在文档中，可以使用 PathSelectors 的其他方法，比如 PathSelectors.ant("/api/**") 来只包含匹配特定模式的端点
+                .paths(PathSelectors.any())
                 .build();
     }
 
