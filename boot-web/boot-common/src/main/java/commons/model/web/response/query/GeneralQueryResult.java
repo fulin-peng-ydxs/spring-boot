@@ -14,10 +14,10 @@ import lombok.Data;
 @ApiModel(value = "通用查询结果模型")
 @Data
 @AllArgsConstructor
-public class GeneralQueryResult {
+public class GeneralQueryResult<T> {
 
     @ApiModelProperty(value = "查询响应数据")
-    private Object data;
+    private T data;
 
     @ApiModelProperty(value = "查询响应数据总数")
     private Number total;
