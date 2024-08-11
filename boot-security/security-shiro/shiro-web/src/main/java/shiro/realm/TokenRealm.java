@@ -45,7 +45,7 @@ public class TokenRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         //获取身份信息：主凭证
         String primaryPrincipal = (String) principalCollection.getPrimaryPrincipal();
-        System.out.println("调用授权验证: "+primaryPrincipal);
+        log.debug("调用授权验证: "+primaryPrincipal);
         //根据主身份信息获取角色 和 权限信息
         UserService userService = (UserService) ApplicationContextUtils
                 .getBean("userService");
@@ -72,7 +72,7 @@ public class TokenRealm extends AuthorizingRealm {
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-        System.out.println("==========================");
+        log.debug("调用认证验证: "+authenticationToken);
         //根据身份信息
         String principal = (String) authenticationToken.getPrincipal();
         //在工厂中获取service对象

@@ -7,8 +7,8 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * token用户登录
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * 2024/8/4
  */
 @Slf4j
-@Controller
+@RestController
 @RequestMapping("/token/login")
 public class TokenLoginController {
 

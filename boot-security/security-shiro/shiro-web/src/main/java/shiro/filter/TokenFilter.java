@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 @Setter
 public class TokenFilter extends BasicHttpAuthenticationFilter {
 
+
     /**
      * 是否允许访问：用户认证
      * 2024/8/4 20:52
@@ -30,7 +31,7 @@ public class TokenFilter extends BasicHttpAuthenticationFilter {
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
         try {
-            //先判断会话是否允许访问，再根据token进行认证
+            //先判断会话（如果有开启的会话的话）是否允许访问，再根据token进行认证
             return super.isAccessAllowed(request, response, mappedValue) || isAccessAllowedExecute(request, response);
         } catch (Exception e) {
             log.error("用户认证异常",e);
@@ -56,7 +57,7 @@ public class TokenFilter extends BasicHttpAuthenticationFilter {
             return false;
         }
         //token校验
-        getSubject(request, response).login(new AuthToken(token,token));
+         getSubject(request, response).login(new AuthToken(token,token));
         return true;
     }
 

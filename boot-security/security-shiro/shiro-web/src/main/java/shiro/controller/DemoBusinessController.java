@@ -3,9 +3,9 @@ package shiro.controller;
 
 import commons.model.web.response.Response;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * demoÒµÎñ¿ØÖÆÆ÷
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * 2024/8/5
  */
 @Slf4j
-@Controller
+@RestController
 @RequestMapping("/demo/business")
 public class DemoBusinessController {
 

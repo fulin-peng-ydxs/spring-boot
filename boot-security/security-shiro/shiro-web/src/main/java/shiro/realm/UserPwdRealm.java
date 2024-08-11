@@ -1,5 +1,6 @@
 package shiro.realm;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -19,6 +20,7 @@ import shiro.service.UserService;
 import shiro.utils.ApplicationContextUtils;
 import java.util.List;
 
+@Slf4j
 @Component
 public class UserPwdRealm extends AuthorizingRealm {
 
@@ -38,7 +40,7 @@ public class UserPwdRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         //获取身份信息
         String primaryPrincipal = (String) principals.getPrimaryPrincipal();
-        System.out.println("调用授权验证: "+primaryPrincipal);
+        log.debug("调用授权验证: "+primaryPrincipal);
         //根据主身份信息获取角色 和 权限信息
         UserService userService = (UserService) ApplicationContextUtils
                 .getBean("userService");
@@ -63,7 +65,7 @@ public class UserPwdRealm extends AuthorizingRealm {
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-        System.out.println("==========================");
+        log.debug("调用认证验证: "+token);
         //根据身份信息
         String principal = (String) token.getPrincipal();
         //在工厂中获取service对象
