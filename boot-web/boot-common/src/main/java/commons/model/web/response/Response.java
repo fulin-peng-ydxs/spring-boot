@@ -32,12 +32,6 @@ public class Response<T> {
 		this.body = body;
 	}
 
-	public Response(ResponseStatus responseStatus,T body,Number total) {
-		this.status = responseStatus.getStatus();
-		this.message = responseStatus.getMessage();
-		this.body = (T)new GeneralQueryResult<>(body,total);
-	}
-
 	/**成功响应
 	 * 2023/5/10 0010-14:07
 	 * @author pengfulin
@@ -50,8 +44,8 @@ public class Response<T> {
 		return new  Response<>(ResponseStatus.SUCCESS, null);
 	}
 
-	public static   <T> Response<T> success(T body,Number total){
-		return new Response<>(ResponseStatus.SUCCESS, body,total);
+	public static  <T> Response<GeneralQueryResult<T>> success(T body,Number total){
+		return new Response<>(ResponseStatus.SUCCESS,new GeneralQueryResult<>(body,total));
 	}
 
 	/**失败响应
