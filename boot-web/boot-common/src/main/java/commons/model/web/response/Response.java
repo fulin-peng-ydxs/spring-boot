@@ -52,8 +52,8 @@ public class Response<T> {
 	 * 2023/5/10 0010-14:12
 	 * @author pengfulin
 	*/
-	public static  <T> Response<T> failure(Object body){
-		return new Response(ResponseStatus.ERROR,body);
+	public static  <T> Response<T> failure(T body){
+		return new Response<>(ResponseStatus.ERROR,body);
 	}
 
 	public static Response<?> failure(){
