@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
@@ -52,7 +53,8 @@ public class SimpleRedisTemplateConfig {
     private Jackson2JsonRedisSerializer<Object> jsonSerializer() {
         Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
         ObjectMapper objectMapper = new ObjectMapper();
-        //设置类型信息化存储，用于准确反序列化对象（例如java的多态机制），不需要将final类型的对象做处理,解释如下：
+        //设置类型信息化的存储，用于准确反序列化对象（例如java的多态机制）。案例演示：["json.model.User",{"name":"xx","sex":"1"}]
+        // 不需要将final类型的对象做处理,解释如下：
          /*
             在 Jackson 库中，.NON_FINAL 是一种默认类型信息处理的设置，它只包括非最终类（final 类）的类型信息。这种设置通常用于避免在序列化和反序列化过程中包含最终类的类型信息，因为最终类不能被继承，所以不需要类型信息来区分不同的子类。
             以下是为什么要选择 .NON_FINAL 值的一些原因：
