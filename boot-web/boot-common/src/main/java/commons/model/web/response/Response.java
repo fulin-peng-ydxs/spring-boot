@@ -64,12 +64,24 @@ public class Response<T> {
 		return new Response<>(ResponseStatus.ERROR.getStatus(),msg,null);
 	}
 
-	public static <T> Response<T> business(T body){
+	public static Response<?> failure(ResponseStatus responseStatus){
+		return new Response<>(responseStatus.getStatus(),responseStatus.getMessage(),null);
+	}
+
+	public static <T> Response<T> businessFailure(T body){
 		return new Response<>(ResponseStatus.BUSINESS_FAILURE,body);
 	}
 
-	public static Response<?> business(){
+	public static Response<?> businessFailure(){
 		return new Response<>(ResponseStatus.BUSINESS_FAILURE,null);
+	}
+
+	public static <T> Response<T> authorizationFailure(T body){
+		return new Response<>(ResponseStatus.AUTHORIZATION_FAILURE,body);
+	}
+
+	public static <T> Response<T> authenticationFailure(T body){
+		return new Response<>(ResponseStatus.AUTHENTICATION_FAILURE,body);
 	}
 
 	/**

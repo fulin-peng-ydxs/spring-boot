@@ -14,7 +14,11 @@ public enum ResponseStatus {
 
     ERROR("error","系统异常，请重试"),
 
-    BUSINESS_FAILURE("BUSINESS_FAILURE","系统业务异常，请联系管理员");
+    BUSINESS_FAILURE("BUSINESS_FAILURE","系统业务异常，请联系管理员"),
+
+    AUTHENTICATION_FAILURE("AUTHENTICATION_FAILURE","认证失败"),
+
+    AUTHORIZATION_FAILURE("AUTHORIZATION_FAILURE","鉴权失败");
 
     private final String status;
 
