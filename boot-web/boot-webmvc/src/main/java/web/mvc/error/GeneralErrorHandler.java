@@ -27,7 +27,7 @@ public class GeneralErrorHandler {
      */
     @ResponseBody
     @ExceptionHandler(Exception.class)
-    public Response defaultHandle(Exception e){
+    public Response<?> defaultHandle(Exception e){
         log.error("系统异常：",e);
         return Response.failure();
     }
@@ -39,7 +39,7 @@ public class GeneralErrorHandler {
      */
     @ResponseBody
     @ExceptionHandler(GeneralBusinessException.class)
-    public Response generalBusinessHandle(GeneralBusinessException e){
+    public Response<?> generalBusinessHandle(GeneralBusinessException e){
         log.error("系统业务异常：",e);
         return Response.custom(e.getExceptionType(),e.getExceptionBody());
     }
