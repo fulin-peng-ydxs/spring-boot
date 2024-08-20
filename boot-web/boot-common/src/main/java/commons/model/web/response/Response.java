@@ -65,7 +65,11 @@ public class Response<T> {
 	}
 
 	public static Response<?> failure(ResponseStatus responseStatus){
-		return new Response<>(responseStatus.getStatus(),responseStatus.getMessage(),null);
+		return failure(responseStatus,responseStatus.getMessage());
+	}
+
+	public static Response<?> failure(ResponseStatus responseStatus,String message){
+		return new Response<>(responseStatus.getStatus(),message,null);
 	}
 
 	public static <T> Response<T> businessFailure(T body){
