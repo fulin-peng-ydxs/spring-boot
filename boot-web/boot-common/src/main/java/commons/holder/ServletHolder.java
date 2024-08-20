@@ -216,7 +216,7 @@ public class ServletHolder {
             //1.设置内容信息描述
             //1.1文件名进行Url参数格式编码
             String encodedFilename = URLEncoder.encode(fileName, StandardCharsets.UTF_8.toString());
-            response.setHeader(HttpHeaders.CONTENT_DISPOSITION, preview?"inline":"attachment; filename*=UTF-8''" + encodedFilename);
+            response.setHeader(HttpHeaders.CONTENT_DISPOSITION, (preview?"inline":"attachment")+"; filename*=UTF-8''" + encodedFilename);
             //2.设置内容的类型&大小
             response.setContentType(mimeType==null? MimeType.APPLICATION_OCTET_STREAM :mimeType);
             response.setHeader(HttpHeaders.CONTENT_LENGTH, Integer.toString(contentLength));
