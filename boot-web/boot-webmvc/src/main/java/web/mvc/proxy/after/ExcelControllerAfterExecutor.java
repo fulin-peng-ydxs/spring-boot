@@ -39,7 +39,7 @@ public class ExcelControllerAfterExecutor extends ControllerAfterExecutor{
                     try {
                         String dataAttributeName = excelDownload.dataAttributeName();
                         if(result instanceof Response){
-                            Object body = ((Response) result).getBody();
+                            Object body = ((Response<?>) result).getBody();
                             if(StringUtils.isNotEmpty(dataAttributeName)){
                                 Field declaredField = body.getClass().getDeclaredField(dataAttributeName);
                                 declaredField.setAccessible(true);
