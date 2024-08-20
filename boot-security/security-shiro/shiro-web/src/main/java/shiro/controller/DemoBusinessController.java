@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * demoÒµÎñ¿ØÖÆÆ÷
+ * demoÒµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  *
  * @author pengshuaifeng
  * 2024/8/5
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class DemoBusinessController {
 
     @GetMapping("basic")
-    public Response basic(){
+    public Response<?> basic(){
         return Response.success();
     }
 

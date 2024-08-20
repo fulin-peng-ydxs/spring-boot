@@ -39,7 +39,7 @@ public class MethodCallController {
                     +"methodParamClass：为方法的参数类型（数组格式，按照前后顺序匹配，没有参数则不用填！例如：[java.lang.String]、[java.lang.String,java.lang.Integer,{}]）"
     )
     @RequestMapping(value = { "/call"}, method = { RequestMethod.POST })
-    public Response methodCall(@RequestParam("proxyType") boolean proxyType, @RequestBody Map<String,Object> paramMap){
+    public Response<?> methodCall(@RequestParam("proxyType") boolean proxyType, @RequestBody Map<String,Object> paramMap){
         log.debug("进入-服务方法调用控制器：{}/{}",proxyType,paramMap);
         try {
             String serviceName =paramMap.get("serviceName")==null?null:paramMap.get("serviceName").toString();
@@ -118,7 +118,7 @@ public class MethodCallController {
      * 2023/12/27 23:48
      * @author pengshuaifeng
      */
-    private Response exception(Exception e,String defaultErrorMsg) {
+    private Response<?> exception(Exception e,String defaultErrorMsg) {
         String errorMeg = defaultErrorMsg;
         if (e instanceof RuntimeException)
             errorMeg = e.getMessage();

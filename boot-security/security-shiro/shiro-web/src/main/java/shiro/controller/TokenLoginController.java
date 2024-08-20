@@ -25,7 +25,7 @@ public class TokenLoginController {
      * 用户登录
      */
     @RequestMapping("auth")
-    public Response login(String username, String password) {
+    public Response<?> login(String username, String password) {
         try {
             //获取主体对象
             Subject subject = SecurityUtils.getSubject();
