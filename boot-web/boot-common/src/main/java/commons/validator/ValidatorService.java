@@ -122,8 +122,6 @@ public class ValidatorService {
      * @author pengshuaifeng
      */
     public static ValidateResult validate(Validator validator,Object obj,String errorPrefix,boolean singleton){
-        ValidateResult validateResult = new ValidateResult();
-        validateResult.setStatus(true);
         //执行校验
         BindingResult bindingResult = new BeanPropertyBindingResult(obj, obj.getClass().getSimpleName());
         //TODO 目前仅支持spring的校验器对象，不支持自定义校验器对象
@@ -131,13 +129,10 @@ public class ValidatorService {
         //解析结果
         if (bindingResult.hasErrors()) {
             List<FieldError> errors = bindingResult.getFieldErrors();
-            errorPrefix = errorPrefix == null ? "" : errorPrefix;
-            StringBuilder messageBuilder=new StringBuilder();
             LinkedList<ValidateResult.ValidateError> validateErrors = new LinkedList<>();
             for (FieldError error : errors) {
                 //设置异常消息
                 String defaultMessage = error.getDefaultMessage();
-                messageBuilder.append(defaultMessage);
                 //设置异常对象
                 ValidateResult.ValidateError validateError = new ValidateResult.ValidateError();
                 String field = error.getField();
@@ -155,14 +150,8 @@ public class ValidatorService {
                 if(singleton){
                     break;
                 }
-                messageBuilder.append(errorPrefix);
             }
-            validateResult.setStatus(false);
-            validateResult.setErrors(validateErrors);
-            String message = messageBuilder.toString();
-            message=message.lastIndexOf(errorPrefix)==-1?message:message.substring(0,message.length()-1);
-            validateResult.setMessage(message);
-        }
-        return validateResult;
+            return ValidateResult.failure(validateErrors,errorPrefix);
+        }return ValidateResult.success();
     }
 }

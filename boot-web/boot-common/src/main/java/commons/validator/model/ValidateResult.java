@@ -13,6 +13,8 @@ import java.util.List;
  * 2023/12/23
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ValidateResult {
 
     //校验状态
@@ -32,5 +34,34 @@ public class ValidateResult {
         private String fieldCn;
         //校验异常消息
         private String message;
+    }
+
+
+    public static ValidateResult success(){
+        return new ValidateResult(true,null, null);
+    }
+
+    public static ValidateResult failure(String message){
+        return new ValidateResult(false,message, null);
+    }
+
+    public static ValidateResult failure(String message,List<ValidateError> errors){
+        return new ValidateResult(false,message,errors);
+    }
+
+    public static ValidateResult failure(List<ValidateError> errors,String errorPrefix){
+        errorPrefix = errorPrefix == null ? "" : errorPrefix;
+        StringBuilder messageBuilder=new StringBuilder();
+        for (ValidateError error : errors) {
+            messageBuilder.append(error.message);
+            messageBuilder.append(errorPrefix);
+        }
+        String message = messageBuilder.toString();
+        message=message.lastIndexOf(errorPrefix)==-1?message:message.substring(0,message.length()-1);
+        return new ValidateResult(false,message,errors);
+    }
+
+    public static ValidateResult failure(List<ValidateError> errors){
+        return failure(errors, "|");
     }
 }
