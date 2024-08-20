@@ -10,7 +10,9 @@ import lombok.Getter;
 @Getter
 public enum ExceptionType {
 
-    PARAMS_CHECK_FAILURE("PARAM_CHECK_FAILURE","参数校验不通过");
+    PARAMS_CHECK_FAILURE("PARAM_CHECK_FAILURE","参数校验不通过"),
+
+    DATA_CHECK_FAILURE("DATA_CHECK_FAILURE","数据校验不通过");
 
     private final String value;
 

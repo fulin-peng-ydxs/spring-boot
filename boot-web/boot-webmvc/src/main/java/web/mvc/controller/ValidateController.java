@@ -32,7 +32,7 @@ public class ValidateController {
 
 
     @PostMapping("/basic")
-    public Response basic(@Valid @RequestBody User user, BindingResult bindingResult){
+    public Response<?> basic(@Valid @RequestBody User user, BindingResult bindingResult){
         //获取校验错误集合，为空则没有错误
         List<FieldError> fieldErrors = bindingResult.getFieldErrors();
         if (!fieldErrors.isEmpty()) {
@@ -48,7 +48,7 @@ public class ValidateController {
 
 
     @PostMapping("/validatorService")
-    public Response validatorService(@RequestBody User user){
+    public Response<?> validatorService(@RequestBody User user){
 //        ValidateResult validate = validatorService.validate(user);
 //        ValidateResult validate = validatorService.validate(user,true);
         ValidateResult validate = validatorService.validate(user,",",false);
@@ -64,7 +64,7 @@ public class ValidateController {
     }
 
     @PostMapping("/validatorService/list")
-    public Response validatorService(@RequestBody List<User> users){
+    public Response<?> validatorService(@RequestBody List<User> users){
         List<ValidateResult> validates = validatorService.validates(users);
 //        List<ValidateResult> validates = validatorService.validates(users,true);
         if (!validates.isEmpty()) {
@@ -81,17 +81,17 @@ public class ValidateController {
 
 
     @PostMapping("/validatorService/proxy")
-    public Response validatorServiceProxy(@EntityValid @RequestBody User user){
+    public Response<?> validatorServiceProxy(@EntityValid @RequestBody User user){
         return Response.success();
     }
 
     @PostMapping("/validatorService/proxy/list")
-    public Response validatorServiceProxyList(@EntityValid @RequestBody  List<User> users){
+    public Response<?> validatorServiceProxyList(@EntityValid @RequestBody  List<User> users){
         return Response.success();
     }
 
     @PostMapping("/validatorService/proxy/null")
-    public Response validatorServiceProxyNull(@EntityValid User user){
+    public Response<?> validatorServiceProxyNull(@EntityValid User user){
         return Response.success();
     }
 }

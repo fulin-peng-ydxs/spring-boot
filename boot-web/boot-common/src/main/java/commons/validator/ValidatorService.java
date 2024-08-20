@@ -56,7 +56,7 @@ public class ValidatorService {
                     continue;
                 }
                 if(isThrow){
-                    throw new GeneralBusinessException(ExceptionType.PARAMS_CHECK_FAILURE,validateResult.getMessage());
+                    throw new GeneralBusinessException(ExceptionType.DATA_CHECK_FAILURE,validateResult.getMessage());
                 }else{
                     return validateResult;
                 }
@@ -64,7 +64,7 @@ public class ValidatorService {
         }else{
             validateResult = validate(defaultValidator, object, defaultErrorPrefix, false);
             if (!validateResult.isStatus() && isThrow) {
-                throw new GeneralBusinessException(ExceptionType.PARAMS_CHECK_FAILURE,validateResult.getMessage());
+                throw new GeneralBusinessException(ExceptionType.DATA_CHECK_FAILURE,validateResult.getMessage());
             }
         }
         return validateResult;
@@ -93,7 +93,7 @@ public class ValidatorService {
             ValidateResult validateResult = validate(defaultValidator, object, defaultErrorPrefix, false);
             if (!validateResult.isStatus()) {
                 if(isThrow){
-                    throw new GeneralBusinessException(ExceptionType.PARAMS_CHECK_FAILURE,validateResult.getMessage());
+                    throw new GeneralBusinessException(ExceptionType.DATA_CHECK_FAILURE,validateResult.getMessage());
                 }else{
                     validateResults.add(validateResult);
                 }
