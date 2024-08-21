@@ -9,9 +9,24 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <properties>
+        <!--使用swagger2时，推荐使用2.x版本-->
+        <knife4j-version>3.0.3</knife4j-version>
+    </properties>
+
     <artifactId>boot-swagger</artifactId>
     <packaging>pom</packaging>
     <modules>
         <module>swagger3</module>
     </modules>
+
+    <dependencies>
+        <!-- Knife4j -->
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-spring-boot-starter</artifactId>
+            <version>${knife4j-version}</version>
+        </dependency>
+    </dependencies>
+
 </project>

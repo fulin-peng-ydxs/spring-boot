@@ -1,0 +1,9 @@
+#spring boot-2.6.x-~ 与 springfox3 兼容器问题
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+#集成knife4j
+knife4j:
+  enable: true

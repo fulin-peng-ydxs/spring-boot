@@ -1,5 +1,0 @@
-#spring boot-2.6.x-~ Óë springfox3 ¼æÈİÆ÷ÎÊÌâ
-spring:
-  mvc:
-    pathmatch:
-      matching-strategy: ant_path_matcher

@@ -30,4 +30,10 @@ public class QuickController {
     public Map<String,Object> post(@ApiParam("请求参数")  @RequestParam String user){
         return Collections.singletonMap("body",user);
     }
+
+    @ApiOperation(value = "模型方法",notes = "模型方法调用")
+    @RequestMapping(value = "/model",method = RequestMethod.POST)
+    public User model(@ApiParam("请求参数") @RequestBody User user){
+        return user;
+    }
 }
