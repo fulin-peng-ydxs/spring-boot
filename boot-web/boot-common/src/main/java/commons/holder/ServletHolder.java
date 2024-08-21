@@ -51,6 +51,7 @@ public class ServletHolder {
      * 重新构造客户端用于发出请求的URL。返回的URL包含协议、服务器名称、端口号和服务器路径，但不包含查询字符串参数。
      * 因为这个方法返回StringBuffer，而不是字符串，所以您可以很容易地修改URL，例如，添加查询参数。
      * 此方法对于创建重定向消息和报告错误非常有用
+     * http://localhost:8080/data-collect/api/test
      * 2024/6/3 23:27
      * @author pengshuaifeng
      */
@@ -66,6 +67,7 @@ public class ServletHolder {
      * /a.html
      * HEAD /xyz?a=b HTTP/1.1
      * /xyz
+     * http://localhost:8080/data-collect/api/test ：/data-collect/api/test（如果有设置上下文的话）
      * 2024/6/3 23:27
      * @author pengshuaifeng
      */
@@ -77,6 +79,7 @@ public class ServletHolder {
      * 获取servlet路径
      * 返回该请求URL中调用servlet的部分。该路径以“/”字符开头，
      * 包括servlet名称或servlet的路径，但不包括任何额外的路径信息或查询字符串
+     * http://localhost:8080/data-collect/api/test ：/api/test（如果有设置上下文的话）
      * 2024/6/4 22:24
      * @author pengshuaifeng
      */
@@ -88,6 +91,7 @@ public class ServletHolder {
      * 获取请求上下文
      * 返回请求URI中指示请求上下文的部分。上下文路径总是出现在请求URI的前面。
      * 路径以“/”字符开始，但不以“/”字符结束。对于默认(根)上下文中的servlet，该方法返回""。容器不解码此字符串。
+     * http://localhost:8080/data-collect/api/test ：/data-collect（如果有设置上下文的话）
      * 2024/6/3 23:32
      * @author pengshuaifeng
      */
