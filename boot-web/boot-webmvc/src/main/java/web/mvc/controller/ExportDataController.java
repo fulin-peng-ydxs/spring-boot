@@ -28,9 +28,9 @@ public class ExportDataController {
     @ApiOperation(value = "excel导出-默认",notes = "数据导出excel")
     @ExcelDownload(fileName ="excel导出测试" )
     public Response<?> excel(){
-        List<User> users = Arrays.asList(new User("test1", "test1-1", 1,"湖南"),
-                new User("test2", "test2-1", 12,"湖北"),
-                new User("test3", "test3-1", 99,"广东"));
+        List<User> users = Arrays.asList(new User("test1", "test1-1", 1,"湖南",null),
+                new User("test2", "test2-1", 12,"湖北",null),
+                new User("test3", "test3-1", 99,"广东",null));
         return Response.success(users);
     }
 
@@ -39,9 +39,9 @@ public class ExportDataController {
     @ApiOperation(value = "excel导出-自定义",notes = "数据导出excel")
     @ExcelDownload(fileName ="excel导出测试",fieldNames = {"name","sex","age"})
     public Response<?> excelSort(){
-        List<User> users = Arrays.asList(new User("test1", "test1-1", 1,"湖南"),
-                new User("test2", "test2-1", 12,"湖北"),
-                new User("test3", "test3-1", 99,"广东"));
+        List<User> users = Arrays.asList(new User("test1", "test1-1", 1,"湖南",null),
+                new User("test2", "test2-1", 12,"湖北",null),
+                new User("test3", "test3-1", 99,"广东",null));
         return Response.success(users);
     }
 }

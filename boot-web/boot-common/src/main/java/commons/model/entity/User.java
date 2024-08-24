@@ -39,4 +39,7 @@ public class User {
     @ApiModelProperty(value = "地址")
     @NotNull(message = "地址不能为空")
     private String address;
+
+    @ApiModelProperty(value = "汽车")
+    private Car car;
 }

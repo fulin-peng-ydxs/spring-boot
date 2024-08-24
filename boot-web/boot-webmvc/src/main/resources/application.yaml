@@ -5,3 +5,12 @@ logging:
   level:
     web:
       mvc: debug
+
+#自定义配置
+web:
+  custom:
+    proxy:  #代理组件配置
+      log: #日志配置
+        enable: true
+      controller:
+       enable: false

@@ -17,13 +17,13 @@ import java.lang.reflect.Parameter;
 import java.util.Collection;
 
 /**
- * 控制器后置处理器
+ * 后置处理器
  *
  * @author pengshuaifeng
  * 2024/1/20
  */
 @Component
-public class ControllerBeforeExecutor {
+public class ProxyBeforeExecutor {
 
     @Autowired
     private ValidatorService validatorService;

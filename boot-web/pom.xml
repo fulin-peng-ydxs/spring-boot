@@ -12,10 +12,10 @@
     <artifactId>boot-web</artifactId>
 
     <modules>
+        <module>boot-common</module>
         <module>boot-webflux</module>
         <module>boot-webmvc</module>
         <module>boot-websocket</module>
-        <module>boot-common</module>
     </modules>
 
     <dependencies>

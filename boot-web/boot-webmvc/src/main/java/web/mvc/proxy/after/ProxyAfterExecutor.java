@@ -4,12 +4,12 @@ package web.mvc.proxy.after;
 import org.aspectj.lang.JoinPoint;
 
 /**
- * 控制器后置处理器
+ * 代理后置处理器
  *
  * @author pengshuaifeng
  * 2024/1/20
  */
-public class ControllerAfterExecutor {
+public class ProxyAfterExecutor {
 
     /**
      * 后置处理

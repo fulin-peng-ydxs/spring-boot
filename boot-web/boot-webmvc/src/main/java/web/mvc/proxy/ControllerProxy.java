@@ -1,4 +1,4 @@
-package web.mvc.proxy.controller;
+package web.mvc.proxy;
 
 import commons.utils.CollectionUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -7,29 +7,32 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
-import web.mvc.proxy.after.ControllerAfterExecutor;
-import web.mvc.proxy.before.ControllerBeforeExecutor;
+import web.mvc.proxy.after.ProxyAfterExecutor;
+import web.mvc.proxy.before.ProxyBeforeExecutor;
+
 import java.util.Collections;
 import java.util.List;
 
 /**
- * 通用的控制器代理
+ * 控制器代理
  * @author fulin peng
  * 2023/8/3 0003 16:45
  */
 @Slf4j
 @Aspect
 @Service
-public class GeneralControllerProxy{
+@ConditionalOnProperty(name = "web.custom.proxy.controller.enable",havingValue = "true",matchIfMissing = true)
+public class ControllerProxy {
 
     @Autowired
-    private List<ControllerAfterExecutor> afterExecutors= Collections.emptyList();
+    private List<ProxyAfterExecutor> afterExecutors= Collections.emptyList();
 
-    private List<ControllerBeforeExecutor> beforeExecutors=Collections.emptyList();
+    private List<ProxyBeforeExecutor> beforeExecutors=Collections.emptyList();
 
     @Autowired
-    public void setExecutor(List<ControllerAfterExecutor> afterExecutors,List<ControllerBeforeExecutor> beforeExecutors){
+    public void setExecutor(List<ProxyAfterExecutor> afterExecutors, List<ProxyBeforeExecutor> beforeExecutors){
         if (CollectionUtils.isNotEmpty(afterExecutors)) {
             this.afterExecutors=afterExecutors;
         }
@@ -58,7 +61,7 @@ public class GeneralControllerProxy{
      * 2023/8/3 0003 17:41
      */
     public Object before(JoinPoint joinPoint) {
-        for (ControllerBeforeExecutor beforeExecutor : beforeExecutors) {
+        for (ProxyBeforeExecutor beforeExecutor : beforeExecutors) {
             Object before = beforeExecutor.before(joinPoint);
             if (before!=null)
                 return before;
@@ -73,7 +76,7 @@ public class GeneralControllerProxy{
      * @author pengshuaifeng
      */
     public Object after(JoinPoint joinPoint,Object result){
-        for (ControllerAfterExecutor afterExecutor : afterExecutors) {
+        for (ProxyAfterExecutor afterExecutor : afterExecutors) {
             Object after = afterExecutor.after(joinPoint,result);
             if (after==null) return null;
         }

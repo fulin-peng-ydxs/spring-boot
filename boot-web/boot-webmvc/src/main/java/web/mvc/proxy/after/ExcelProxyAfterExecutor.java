@@ -15,13 +15,13 @@ import java.lang.reflect.Method;
 import java.util.*;
 
 /**
- * excel控制器后置处理器
+ * excel代理后置处理器
  *
  * @author pengshuaifeng
  * 2024/1/21
  */
 @Component
-public class ExcelControllerAfterExecutor extends ControllerAfterExecutor{
+public class ExcelProxyAfterExecutor extends ProxyAfterExecutor {
 
 
     @Override

@@ -2,7 +2,7 @@ package web.mvc.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
-import web.mvc.controller.ValidateController;
+import web.mvc.controller.ProxyLogController;
 import web.mvc.service.collect.ControlHandlerCollectService;
 
 /**
@@ -21,6 +21,6 @@ public class RequestMappingHandlerMappingConfigure {
         //设置默认的处理器为DataCollectController
         requestMappingHandlerMapping.
                 setDefaultHandler(collectService.getControllerByTypeMethods()
-                        .get(ValidateController.class).get("/data/collect").createWithResolvedBean());
+                        .get(ProxyLogController.class).get("/proxy/log/test").createWithResolvedBean());
     }
 }
