@@ -18,6 +18,8 @@ import java.io.InputStream;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -110,6 +112,21 @@ public class ServletHolder {
 
     public static String getRequestHeader(String headName,HttpServletRequest request) {
         return request.getHeader(headName);
+    }
+
+    public static Map<String,String> getRequestHeaders() {
+        return getRequestHeaders(getRequest());
+    }
+
+    public static Map<String,String> getRequestHeaders(HttpServletRequest request) {
+        Map<String, String> result = new HashMap<>();
+        Enumeration<String> headerNames = request.getHeaderNames();
+        while (headerNames.hasMoreElements()) {
+            String headerName = headerNames.nextElement();
+            String headerValue = request.getHeader(headerName);
+            result.put(headerName,headerValue);
+        }
+        return result;
     }
 
     /**
