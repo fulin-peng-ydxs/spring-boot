@@ -1,6 +1,7 @@
 package commons.utils;
 
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  * 集合工具类
@@ -17,6 +18,10 @@ public class CollectionUtils {
     */
     public static boolean isEmpty(Collection<?> collection){
         return collection==null||collection.isEmpty();
+    }
+
+    public static <T> Collection<T> isEmptyOrDefault(Collection<T> collection){
+        return isEmpty(collection)? Collections.emptyList():collection;
     }
 
     public static boolean isNotEmpty(Collection<?> collection){

@@ -1,7 +1,7 @@
 package web.mvc.controller;
 
 
-import commons.model.annotations.excel.ExcelDownload;
+import commons.model.annotations.excel.ExcelExport;
 import commons.model.entity.User;
 import commons.model.web.response.Response;
 import io.swagger.annotations.Api;
@@ -26,7 +26,7 @@ public class ExportDataController {
 
     @GetMapping("/excel")
     @ApiOperation(value = "excel导出-默认",notes = "数据导出excel")
-    @ExcelDownload(fileName ="excel导出测试" )
+    @ExcelExport(fileName ="excel导出测试" )
     public Response<?> excel(){
         List<User> users = Arrays.asList(new User("test1", "test1-1", 1,"湖南",null),
                 new User("test2", "test2-1", 12,"湖北",null),
@@ -37,7 +37,7 @@ public class ExportDataController {
 
     @GetMapping("/excel/custom")
     @ApiOperation(value = "excel导出-自定义",notes = "数据导出excel")
-    @ExcelDownload(fileName ="excel导出测试",fieldNames = {"name","sex","age"})
+    @ExcelExport(fileName ="excel导出测试",fieldNames = {"name","sex","age"})
     public Response<?> excelSort(){
         List<User> users = Arrays.asList(new User("test1", "test1-1", 1,"湖南",null),
                 new User("test2", "test2-1", 12,"湖北",null),

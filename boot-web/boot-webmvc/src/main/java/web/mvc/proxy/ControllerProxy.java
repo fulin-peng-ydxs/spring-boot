@@ -6,12 +6,14 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 import web.mvc.proxy.after.ProxyAfterExecutor;
 import web.mvc.proxy.before.ProxyBeforeExecutor;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -26,19 +28,14 @@ import java.util.List;
 @ConditionalOnProperty(name = "web.custom.proxy.controller.enable",havingValue = "true",matchIfMissing = true)
 public class ControllerProxy {
 
-    @Autowired
-    private List<ProxyAfterExecutor> afterExecutors= Collections.emptyList();
+    private Collection<ProxyAfterExecutor> afterExecutors= Collections.emptyList();
 
-    private List<ProxyBeforeExecutor> beforeExecutors=Collections.emptyList();
+    private Collection<ProxyBeforeExecutor> beforeExecutors=Collections.emptyList();
 
     @Autowired
-    public void setExecutor(List<ProxyAfterExecutor> afterExecutors, List<ProxyBeforeExecutor> beforeExecutors){
-        if (CollectionUtils.isNotEmpty(afterExecutors)) {
-            this.afterExecutors=afterExecutors;
-        }
-        if (CollectionUtils.isNotEmpty(beforeExecutors)) {
-            this.beforeExecutors=beforeExecutors;
-        }
+    public void setExecutor(ObjectProvider<Collection<ProxyAfterExecutor>> afterExecutors,ObjectProvider<Collection<ProxyBeforeExecutor>> beforeExecutors){
+        this.afterExecutors=CollectionUtils.isEmptyOrDefault(afterExecutors.getIfAvailable());
+        this.beforeExecutors=CollectionUtils.isEmptyOrDefault(beforeExecutors.getIfAvailable());
     }
 
     @Around(value = "(@within(org.springframework.stereotype.Controller) ||" +
