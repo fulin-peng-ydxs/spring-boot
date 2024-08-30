@@ -2,6 +2,7 @@ package commons.service.excel;
 
 import commons.model.annotations.excel.ExcelExport;
 import commons.utils.ClassUtils;
+import commons.utils.CollectionUtils;
 import commons.utils.ExcelUtils;
 import java.lang.reflect.Method;
 import java.util.*;
@@ -35,7 +36,7 @@ public abstract class ExcelExportExecutor {
                 Object object = ClassUtils.getFieldValueWithMultistage(dataAttributeName, data);
                 rows=(Collection<?>) object;
             }
-            if(rows==null || rows.isEmpty())  //校验数据集
+            if(CollectionUtils.isEmpty(rows))  //校验数据集
                 return null;
             //定义表头的映射：header=key:表头名 => value:字段名
             Class<?> rowClass = rows.iterator().next().getClass();
