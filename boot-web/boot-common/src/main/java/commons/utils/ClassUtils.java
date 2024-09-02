@@ -89,6 +89,11 @@ public class ClassUtils {
         }
     }
 
+    public static  <T> T getFieldValue(Field field, Object value){
+        return getFieldValue(field.getName(), value,null);
+    }
+
+
     /**
      * 设置字段值
      * 2023/12/7 0007 16:20
@@ -97,6 +102,20 @@ public class ClassUtils {
     public static void setFieldValue(String fieldName,Object fieldValue,Object value){
         try {
             Field field = value.getClass().getDeclaredField(fieldName);
+            field.setAccessible(true);
+            field.set(value,fieldValue);
+        } catch (Exception e) {
+            throw new RuntimeException("设置字段异常",e);
+        }
+    }
+
+    /**
+     * 设置字段值
+     * 2023/12/7 0007 16:20
+     * @author fulin-peng
+     */
+    public static void setFieldValue(Field field ,Object fieldValue,Object value){
+        try {
             field.setAccessible(true);
             field.set(value,fieldValue);
         } catch (Exception e) {
@@ -135,6 +154,21 @@ public class ClassUtils {
             }
         }
         return fields;
+    }
+
+    /**
+     * 获取字段
+     * 2023/12/24 22:54
+     * @param clazz 类对象
+     * @param  fieldName 字段名称
+     * @author pengshuaifeng
+     */
+    public static Field getField(Class<?> clazz,String fieldName){
+        try {
+            return clazz.getDeclaredField(fieldName);
+        } catch (Exception e) {
+            throw new RuntimeException("获取字段异常",e);
+        }
     }
 
     /**
