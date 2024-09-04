@@ -13,4 +13,4 @@ web:
       log: #日志配置
         enable: true
       controller:
-       enable: false
+       enable: true

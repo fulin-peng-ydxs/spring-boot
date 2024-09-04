@@ -16,6 +16,7 @@ import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
+
 /**
  * excel工具类
  *
@@ -36,7 +37,7 @@ public class ExcelUtils {
      * 2024/1/4 22:23
      * @author pengshuaifeng
      */
-    public static <T> Map<String,Collection<T>> read(InputStream in, Class<T> targetType, Map<String,String> headers, int startReadRowAt) throws Exception {
+    public static <T> Map<String,Object> read(InputStream in, Class<T> targetType, Map<String,String> headers, int startReadRowAt)  {
         return read(in, targetType, null, headers, 0, startReadRowAt);
     }
 
@@ -49,7 +50,7 @@ public class ExcelUtils {
      * 2024/1/4 22:23
      * @author pengshuaifeng
      */
-    public static <T> Map<String,Collection<T>> read(InputStream in,Class<T> targetType,Map<String,String> headers) throws Exception {
+    public static <T> Map<String,Object> read(InputStream in,Class<T> targetType,Map<String,String> headers)  {
         return read(in, targetType, null, headers, 0, 1);
     }
 
@@ -64,7 +65,7 @@ public class ExcelUtils {
      * 2024/1/4 22:23
      * @author pengshuaifeng
      */
-    public static <T> Map<String,Collection<T>> read(InputStream in,Class<T> targetType,Collection<String> sheetNames,Map<String,String> headers,int startReadRowAt) throws Exception {
+    public static <T> Map<String,Object> read(InputStream in,Class<T> targetType,Collection<String> sheetNames,Map<String,String> headers,int startReadRowAt) {
         return read(in, targetType,sheetNames, headers, 0, startReadRowAt);
     }
 
@@ -79,7 +80,7 @@ public class ExcelUtils {
      * @author pengshuaifeng
      */
     //TODO 表头映射应该和sheet一一绑定而不是共享表头
-    public static <T> Map<String,Collection<T>> read(InputStream in,Class<T> targetType,Collection<String> sheetNames,Map<String,String> headers) throws Exception {
+    public static <T> Map<String,Object> read(InputStream in,Class<T> targetType,Collection<String> sheetNames,Map<String,String> headers)  {
         return read(in, targetType, sheetNames, headers, 0, 1);
     }
 
@@ -94,7 +95,7 @@ public class ExcelUtils {
      * 2024/1/4 01:16
      * @author pengshuaifeng
      */
-    public static <T> Map<String,Collection<T>> read(InputStream in,Class<T> targetType,Collection<String> sheetNames,Map<String,String> headers,int headerAt,int startReadRowAt)throws Exception{
+    public static <T> Map<String,Object> read(InputStream in,Class<T> targetType,Collection<String> sheetNames,Map<String,String> headers,int headerAt,int startReadRowAt){
         Workbook workbook = getWorkBook(in);
         return readWorkbook(workbook,targetType,sheetNames,headers,headerAt,startReadRowAt);
     }
@@ -105,18 +106,18 @@ public class ExcelUtils {
      * 2024/1/4 23:41
      * @author pengshuaifeng
      */
-    private static  <T> Map<String,Collection<T>> readWorkbook(Workbook workbook,Class<T> targetType,Collection<String> sheetNames,Map<String,String> headers,int headerAt,int startReadRowAt){
+    private static <T>  Map<String,Object> readWorkbook(Workbook workbook,Class<T> targetType,Collection<String> sheetNames,Map<String,String> headers,int headerAt,int startReadRowAt){
         try {
             //读取结果集
-            Map<String,Collection<T>> results=new LinkedHashMap<>();
+            Map<String,Object> results=new LinkedHashMap<>();
             if(sheetNames==null){ //遍历读取所有工作表
                 for (Sheet sheet : workbook) {
-                    results.put(sheet.getSheetName(),readSheet(sheet,headers,headerAt,targetType,startReadRowAt));//读取工作表
+                    readWorkbookWExecute(sheet,targetType,headers,headerAt,startReadRowAt,results);
                 }
             }else{   //读取指定工作表
                 for (String sheetName : sheetNames) {
                     Sheet sheet = workbook.getSheet(sheetName);
-                    results.put(sheet.getSheetName(),readSheet(sheet,headers,headerAt,targetType,startReadRowAt));//读取工作表
+                    readWorkbookWExecute(sheet,targetType,headers,headerAt,startReadRowAt,results);
                 }
             }
             return results;
@@ -125,21 +126,26 @@ public class ExcelUtils {
         }
     }
 
+    private static <T> void  readWorkbookWExecute(Sheet sheet, Class<T> targetType, Map<String,String> headers, int headerAt, int startReadRowAt,
+                                                  Map<String,Object> results){
+        Map<Integer, Field> headerMappings = generateHeaderMappings(sheet, headerAt, targetType, headers);
+        results.put(sheet.getSheetName(),readSheet(sheet,headerMappings,targetType,startReadRowAt));//读取工作表
+    }
+
+
     /**
      * 读取工作表
      * 2024/1/4 23:41
      * @author pengshuaifeng
      */
-    private static  <T> Collection<T> readSheet(Sheet sheet,Map<String,String> headers,int headerAt,Class<T> targetType, int startReadRowAt){
+    private static <T> Collection<T> readSheet(Sheet sheet,Map<Integer,Field> headers,Class<T> targetType, int startReadRowAt){
         try {
             Collection<T> results = new LinkedList<>();
             //生成表头映射
-            Map<Integer,Field> headersTemp;
-            headersTemp=generateHeaderMappings(sheet,headerAt,targetType,headers);
             for (Row row : sheet) {
                 if (row.getRowNum()<startReadRowAt) //从startReadRow索引行开始读取
                     continue;
-                results.add(readRow(row,headersTemp,targetType));
+                results.add(readRow(row,headers,targetType));
             }
             return results;
         } catch (Exception e) {
@@ -152,12 +158,13 @@ public class ExcelUtils {
      * 2024/1/4 23:40
      * @author pengshuaifeng
      */
-    private static  <T> T readRow(Row row, Map<Integer,Field> headers, Class<T> targetType){
+    private static <T> T readRow(Row row, Map<Integer,Field> headers, Class<T> targetType){
         try {
             T t = targetType.newInstance();
             for (Map.Entry<Integer, Field> header : headers.entrySet()) {
                 Field field = header.getValue();
-                field.set(t,readCell(row.getCell(header.getKey()),field.getType()));  //读取单元格数据
+                Object cellValue = readCell(row.getCell(header.getKey()), field.getType());//读取单元格数据
+                ClassUtils.setFieldValue(field,cellValue,t);
             }
             return t;
         } catch (Exception e) {
@@ -221,7 +228,7 @@ public class ExcelUtils {
      * 2024/1/7 11:06
      * @author pengshuaifeng
      */
-    public static void write(OutputStream out,Map<String,Collection<?>> contents,Map<String,Map<String,String>> headers, ExcelType excelType,Collection<CellRangeAddress> cellRangeAddress) throws Exception{
+    public static void write(OutputStream out,Map<String,Collection<?>> contents,Map<String,Map<String,String>> headers, ExcelType excelType,Collection<CellRangeAddress> cellRangeAddress) {
         write(out,null,contents, headers,0,1, 0, excelType, cellRangeAddress);
     }
 
@@ -236,7 +243,7 @@ public class ExcelUtils {
      * @return excel字节数组
      * @author pengshuaifeng
      */
-    public static byte[] writeToBytes(Map<String,Collection<?>> contents,Map<String,Map<String,String>> headers, ExcelType excelType,Collection<CellRangeAddress> cellRangeAddress) throws Exception{
+    public static byte[] writeToBytes(Map<String,Collection<?>> contents,Map<String,Map<String,String>> headers, ExcelType excelType,Collection<CellRangeAddress> cellRangeAddress) {
         return writeToBytes( contents, headers, 0, 1, 0, excelType, cellRangeAddress);
     }
 
@@ -255,7 +262,7 @@ public class ExcelUtils {
      * @author pengshuaifeng
      */
     public static byte[] writeToBytes(Map<String,Collection<?>> contents,Map<String,Map<String,String>> headers,
-                                      int headerAt,int startWriteRowAt,int startWriteColAt,ExcelType excelType,Collection<CellRangeAddress> cellRangeAddress) throws Exception{
+                                      int headerAt,int startWriteRowAt,int startWriteColAt,ExcelType excelType,Collection<CellRangeAddress> cellRangeAddress) {
         return writeToBytes(null, contents, headers,headerAt,startWriteRowAt, startWriteColAt, excelType,null, null,
                 cellRangeAddress==null?null:new ExcelCellRangeAddressModel(cellRangeAddress,null));
     }
@@ -277,9 +284,13 @@ public class ExcelUtils {
      * @author pengshuaifeng
      */
     public static void write(OutputStream out,InputStream model,Map<String,Collection<?>> contents,Map<String,Map<String,String>> headers,
-                             int headerAt,int startWriteRowAt,int startWriteColAt,ExcelType excelType,Collection<CellRangeAddress> cellRangeAddress) throws Exception{
-        out.write(writeToBytes(model, contents, headers,headerAt,startWriteRowAt, startWriteColAt, excelType,null, null, cellRangeAddress==null?null:new ExcelCellRangeAddressModel(cellRangeAddress,null)));
-        out.close();
+                             int headerAt,int startWriteRowAt,int startWriteColAt,ExcelType excelType,Collection<CellRangeAddress> cellRangeAddress) {
+        try {
+            out.write(writeToBytes(model, contents, headers,headerAt,startWriteRowAt, startWriteColAt, excelType,null, null, cellRangeAddress==null?null:new ExcelCellRangeAddressModel(cellRangeAddress,null)));
+            out.close();
+        } catch (IOException e) {
+            throw new RuntimeException("导出excel异常",e);
+        }
     }
 
     /**
@@ -298,7 +309,7 @@ public class ExcelUtils {
      * @author pengshuaifeng
      */
     public static byte[] writeToBytes(InputStream model,Map<String,Collection<?>> contents,Map<String,Map<String,String>> headers,
-                                      int headerAt,int startWriteRowAt,int startWriteColAt,ExcelType excelType,Collection<CellRangeAddress> cellRangeAddress) throws Exception{
+                                      int headerAt,int startWriteRowAt,int startWriteColAt,ExcelType excelType,Collection<CellRangeAddress> cellRangeAddress)  {
         return writeToBytes(model, contents, headers,headerAt,startWriteRowAt, startWriteColAt, excelType,null, null,
                 cellRangeAddress==null?null:new ExcelCellRangeAddressModel(cellRangeAddress,null));
     }
@@ -321,9 +332,13 @@ public class ExcelUtils {
      * @author pengshuaifeng
      */
     public static void write(OutputStream out,InputStream model,Map<String,Collection<?>> contents,Map<String,Map<String,String>>headers,
-                             int headerAt,int startWriteRowAt,int startWriteColAt,ExcelType excelType,ExcelCellStyleModel headerStyle,ExcelCellStyleModel contentStyle,ExcelCellRangeAddressModel cellRangeAddressModel) throws Exception{
-        out.write(writeToBytes(model, contents, headers,headerAt,startWriteRowAt, startWriteColAt, excelType, headerStyle, contentStyle, cellRangeAddressModel));
-        out.close();
+                             int headerAt,int startWriteRowAt,int startWriteColAt,ExcelType excelType,ExcelCellStyleModel headerStyle,ExcelCellStyleModel contentStyle,ExcelCellRangeAddressModel cellRangeAddressModel) {
+        try {
+            out.write(writeToBytes(model, contents, headers,headerAt,startWriteRowAt, startWriteColAt, excelType, headerStyle, contentStyle, cellRangeAddressModel));
+            out.close();
+        } catch (IOException e) {
+            throw new RuntimeException("导出excel异常",e);
+        }
     }
 
 
@@ -344,7 +359,7 @@ public class ExcelUtils {
      * @author pengshuaifeng
      */
     public static byte[] writeToBytes(InputStream model,Map<String,Collection<?>> contents,Map<String,Map<String,String>> headers,
-                                      int headerAt,int startWriteRowAt,int startWriteColAt,ExcelType excelType,ExcelCellStyleModel headerStyle,ExcelCellStyleModel contentStyle,ExcelCellRangeAddressModel cellRangeAddressModel)throws Exception{
+                                      int headerAt,int startWriteRowAt,int startWriteColAt,ExcelType excelType,ExcelCellStyleModel headerStyle,ExcelCellStyleModel contentStyle,ExcelCellRangeAddressModel cellRangeAddressModel){
         Workbook workbook;
         if(model!=null){
             //关闭样式
@@ -376,36 +391,40 @@ public class ExcelUtils {
      * @author pengshuaifeng
      */
     public static byte[] writeToBytes(Workbook workbook,Map<String,Collection<?>> contents,Map<String,Map<String,String>> headers,
-                                      int headerAt,int startWriteRowAt,int startWriteColAt,ExcelCellStyleModel headerStyle,ExcelCellStyleModel contentStyle,ExcelCellRangeAddressModel cellRangeAddressModel)throws Exception{
-        for (Map.Entry<String, Collection<?>> content : contents.entrySet()) {
-            String key = content.getKey();
-            Collection<?> value = content.getValue();
-            Class<?> targetType = value.stream().findFirst().get().getClass();
-            Sheet sheet = workbook.getSheet(key);
-            if(sheet==null){
-                sheet= workbook.createSheet(key);
-            }
-            Map<String,String> headerToStrings;
-            if (headers==null|| headers.get(key)==null) { //没有自定义表头，则创建默认表头
-                try {
-                    headerToStrings=generateHeaders(targetType,null,null);
-                } catch (Exception e) {
-                    throw new RuntimeException("生成表头异常",e);
+                                      int headerAt,int startWriteRowAt,int startWriteColAt,ExcelCellStyleModel headerStyle,ExcelCellStyleModel contentStyle,ExcelCellRangeAddressModel cellRangeAddressModel){
+        try {
+            for (Map.Entry<String, Collection<?>> content : contents.entrySet()) {
+                String key = content.getKey();
+                Collection<?> value = content.getValue();
+                Class<?> targetType = value.stream().findFirst().get().getClass();
+                Sheet sheet = workbook.getSheet(key);
+                if(sheet==null){
+                    sheet= workbook.createSheet(key);
                 }
-            }else{
-                headerToStrings=headers.get(key); //使用自定义表头
+                Map<String,String> headerToStrings;
+                if (headers==null|| headers.get(key)==null) { //没有自定义表头，则创建默认表头
+                    try {
+                        headerToStrings=generateHeaders(targetType,null,null);
+                    } catch (Exception e) {
+                        throw new RuntimeException("生成表头异常",e);
+                    }
+                }else{
+                    headerToStrings=headers.get(key); //使用自定义表头
+                }
+                Map<String,Field> headerToFields=new LinkedHashMap<>();
+                for (Map.Entry<String, String> headerField : headerToStrings.entrySet()) {
+                    Field declaredField = ClassUtils.getField(targetType,headerField.getValue());
+                    declaredField.setAccessible(true);
+                    headerToFields.put(headerField.getKey(),declaredField);
+                }
+                writeSheet(sheet,value,headerToFields,headerAt,startWriteRowAt,startWriteColAt,headerStyle,contentStyle,cellRangeAddressModel);
             }
-            Map<String,Field> headerToFields=new LinkedHashMap<>();
-            for (Map.Entry<String, String> headerField : headerToStrings.entrySet()) {
-                Field declaredField = targetType.getDeclaredField(headerField.getValue());
-                declaredField.setAccessible(true);
-                headerToFields.put(headerField.getKey(),declaredField);
-            }
-            writeSheet(sheet,value,headerToFields,headerAt,startWriteRowAt,startWriteColAt,headerStyle,contentStyle,cellRangeAddressModel);
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            workbook.write(byteArrayOutputStream);
+            return byteArrayOutputStream.toByteArray();
+        } catch (IOException e) {
+            throw new RuntimeException("导出excel异常",e);
         }
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        workbook.write(byteArrayOutputStream);
-        return byteArrayOutputStream.toByteArray();
     }
 
 
@@ -537,7 +556,7 @@ public class ExcelUtils {
      * @author pengshuaifeng
      */
     private static Workbook generateWorkBook(ExcelType excelType){
-        return excelType==ExcelType.XLS?new HSSFWorkbookFactory().create():
+        return excelType== ExcelType.XLS?new HSSFWorkbookFactory().create():
                 new XSSFWorkbookFactory().create();
     }
 
@@ -552,30 +571,54 @@ public class ExcelUtils {
      * 2024/1/4 21:37
      * @author pengshuaifeng
      */
-    private static Map<Integer,Field> generateHeaderMappings(Sheet sheet,int index,Class<?> source,Map<String,String> headerSource) throws NoSuchFieldException {
+    private static Map<Integer,Field> generateHeaderMappings(Sheet sheet,int index,Class<?> source,Map<String,String> headerSource)  {
         Map<Integer, Field> headerMappings = new LinkedHashMap<>();
         Row row = sheet.getRow(index);
-        if(headerSource!=null){
+        if(CollectionUtils.isNotEmpty(headerSource)){
             for (Cell cell : row) {
                 int columnIndex = cell.getColumnIndex();
                 String header = cell.getStringCellValue();
-                Field declaredField = source.getDeclaredField(headerSource.get(header));
-                declaredField.setAccessible(true);
-                headerMappings.put(columnIndex, declaredField);
+                Field declaredField = ClassUtils.getField(source,headerSource.get(header));
+                //处理字典类型，优先根据Dict注解中文匹配，同时如果有标注对应的nameEn，则会将此列的值赋予nameEn所关联的字段
+                Dict dict = declaredField.getAnnotation(Dict.class);
+                if(dict!=null&& (header.equals(dict.nameCn())|| header.equals(dict.nameEn()))) {
+                    if (StringUtils.isNotEmpty(dict.nameEn())) {
+                        headerMappings.put(columnIndex, ClassUtils.getField(source, dict.nameEn()));
+                    } else {
+                        headerMappings.put(columnIndex, declaredField);
+                    }
+                }else{
+                    headerMappings.put(columnIndex, declaredField);
+                }
             }
         }else{
+            headerSource= CollectionUtils.isNullOrDefault(headerSource);
             for (Field declaredField : source.getDeclaredFields()) {
                 for (Cell cell : row) {
+                    boolean matched=false;
                     int columnIndex = cell.getColumnIndex();
                     String header = cell.getStringCellValue();
-                    ApiModelProperty apiModelProperty = declaredField.getAnnotation(ApiModelProperty.class);
-                    if (apiModelProperty!=null && apiModelProperty.value().equals(header)) {
-                        declaredField.setAccessible(true);
-                        headerMappings.put(columnIndex, declaredField);
-                        break;
-                    }else if (declaredField.getName().equals(header)) {
-                        declaredField.setAccessible(true);
-                        headerMappings.put(columnIndex,declaredField);
+                    //处理字典类型，优先根据Dict注解中文匹配，同时如果有标注对应的nameEn，则会将此列的值赋予nameEn所关联的字段
+                    Dict dict = declaredField.getAnnotation(Dict.class);
+                    if(dict!=null&& (header.equals(dict.nameCn())|| header.equals(dict.nameEn()))){
+                        if(StringUtils.isNotEmpty(dict.nameEn())){
+                            headerMappings.put(columnIndex,ClassUtils.getField(source,dict.nameEn()));
+                        }else{
+                            headerMappings.put(columnIndex, declaredField);
+                        }
+                        matched=true;
+                    }else{
+                        ApiModelProperty apiModelProperty = declaredField.getAnnotation(ApiModelProperty.class);
+                        if (apiModelProperty!=null && apiModelProperty.value().equals(header)) {
+                            headerMappings.put(columnIndex, declaredField);
+                            matched=true;
+                        }else if (declaredField.getName().equals(header)) {
+                            headerMappings.put(columnIndex,declaredField);
+                            matched=true;
+                        }
+                    }
+                    if(matched){
+                        headerSource.put(header,declaredField.getName());
                         break;
                     }
                 }
@@ -593,11 +636,11 @@ public class ExcelUtils {
      * 2024/1/6 19:12
      * @author pengshuaifeng
      */
-    public static Map<String,String> generateHeaders(Class<?> source,Collection<String> selectedFields,Collection<String> ignoreFields) throws Exception{
+    public static Map<String,String> generateHeaders(Class<?> source,Collection<String> selectedFields,Collection<String> ignoreFields){
         Map<String, String> headers = new LinkedHashMap<>();
         if(selectedFields!=null){
             for (String fieldName : selectedFields) {
-                Field field = source.getDeclaredField(fieldName);
+                Field field = ClassUtils.getField(source,fieldName);
                 setHeaders(source,field,headers);
             }
         }else{
@@ -619,9 +662,9 @@ public class ExcelUtils {
     private static void setHeaders(Class<?> source,Field field,Map<String,String> headers){
         String fieldName = field.getName();
         String headName = fieldName;
-        Dict annotation = field.getAnnotation(Dict.class);
-        if(annotation!=null && StringUtils.isNotEmpty(annotation.nameCn())){
-            headName= annotation.nameCn();
+        Dict dict = field.getAnnotation(Dict.class);
+        if(dict!=null && StringUtils.isNotEmpty(dict.nameCn())){
+            headName= dict.nameCn();
         }else{
             ApiModelProperty apiModelProperty = field.getAnnotation(ApiModelProperty.class);
             if(apiModelProperty!=null){
@@ -638,7 +681,7 @@ public class ExcelUtils {
      * @author pengshuaifeng
      */
     private static ExcelCellStyleModel getHeaderStyle(ExcelCellStyleModel cellStyle){
-        return cellStyle==null?ExcelCellStyleModel.DEFAULT_HEADER_STYLE:cellStyle;
+        return cellStyle==null? ExcelCellStyleModel.DEFAULT_HEADER_STYLE:cellStyle;
     }
 
     /**
@@ -647,7 +690,7 @@ public class ExcelUtils {
      * @author pengshuaifeng
      */
     private static ExcelCellStyleModel getContentStyle(ExcelCellStyleModel cellStyle){
-        return cellStyle==null?ExcelCellStyleModel.DEFAULT_CONTENT_STYLE:cellStyle;
+        return cellStyle==null? ExcelCellStyleModel.DEFAULT_CONTENT_STYLE:cellStyle;
     }
 
     /**
@@ -772,21 +815,24 @@ public class ExcelUtils {
     }
 
     /**
-     * 获取结果集：默认方式
+     * 获取结果集
      * 2024/8/26 下午6:00
      * @author fulin-peng
      */
-    public static <T> Collection<T> getDefaultMapSheet(Map<String,Collection<T>> map){
-        if (map==null)
-            return null;
-        return map.get("Sheet1");
+    public static <T> Collection<T> getDefaultResultCollection(Map<String,Object> result){
+        return getResultCollection(result, "Sheet1");
     }
 
-    public static <T> Collection<T> getDefaultMapSheetAt(Map<String,Collection<T>> map,int at){
-        if (map==null)
-            return null;
-        return map.get("Sheet"+at);
+    public static <T> Collection<T> getDefaultResultCollection(Map<String,Object> result,int at){
+        return getResultCollection(result,"Sheet"+at);
     }
+
+    public static <T> Collection<T> getResultCollection(Map<String,Object> result,String sheetName){
+        if (result==null)
+            return null;
+        return (Collection<T>) result.get(sheetName);
+    }
+
 
     /**
      * excel类型

@@ -1,9 +1,9 @@
 package web.mvc.proxy.after;
 
 import commons.basics.ServletHolder;
-import commons.model.annotations.excel.ExcelExport;
+import commons.model.annotations.excel.ExcelMark;
 import commons.model.web.mime.MimeType;
-import commons.service.excel.ExcelExportExecutor;
+import commons.resolver.excel.ExcelMarkResolver;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
@@ -28,14 +28,14 @@ public class ExcelProxyAfterExecutor extends ProxyAfterExecutor {
             if(accept==null || result==null)
                 return result;
             if (accept.equals(MimeType.APPLICATION_XLSX) || accept.equals(MimeType.APPLICATION_XLS)) {  //请求接受excel响应
-                ExcelExport excelExport = method.getAnnotation(ExcelExport.class);
-                if(excelExport !=null){   //定义了excel导出注解
+                ExcelMark excelMark = method.getAnnotation(ExcelMark.class);
+                if(excelMark !=null){   //定义了excel导出注解
                     //导出数据
                     boolean isXlsx = !accept.equals(MimeType.APPLICATION_XLS);
-                    ExcelExportExecutor executor = WebApplicationContextUtils.getWebApplicationContext(ServletHolder.getServletContext()).getBean(
-                            excelExport.executorClass());
+                    ExcelMarkResolver executor = WebApplicationContextUtils
+                            .getWebApplicationContext(ServletHolder.getServletContext()).getBean(excelMark.exportClass());
                     byte[] bytes =executor.exportByte(method,result,isXlsx);
-                    ServletHolder.responseToOutStream(null,bytes, excelExport.fileName(),
+                    ServletHolder.responseToOutStream(null,bytes, excelMark.fileName(),
                             isXlsx?MimeType.APPLICATION_XLSX:MimeType.APPLICATION_XLS,false);
                 }
             }
