@@ -1,4 +1,4 @@
-package commons.dynamic;
+package commons.utils.dynamic;
 
 import commons.utils.ClassUtils;
 import io.swagger.annotations.ApiModelProperty;
