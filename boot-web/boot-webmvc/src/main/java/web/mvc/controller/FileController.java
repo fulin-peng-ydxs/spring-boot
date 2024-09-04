@@ -1,7 +1,7 @@
 package web.mvc.controller;
 
 
-import commons.web.ServletHolder;
+import commons.basics.ServletHolder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;

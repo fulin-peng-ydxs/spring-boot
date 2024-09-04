@@ -1,4 +1,4 @@
-package commons.web;
+package commons.basics;
 
 
 import commons.model.web.mime.MimeType;

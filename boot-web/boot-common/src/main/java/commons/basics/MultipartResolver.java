@@ -1,4 +1,4 @@
-package commons.web;
+package commons.basics;
 
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.support.MultipartResolutionDelegate;
