@@ -74,7 +74,9 @@ public abstract class ExcelMarkResolver {
 
     /**
      * 导入
-     * 2024/9/3 上午11:03 
+     * 2024/9/3 上午11:03
+     * @param in excel流
+     * @param parameter 方法参数对象，导入目标实体信息
      * @author fulin-peng
      */
     public  Collection<?> importData(InputStream in,Parameter parameter){

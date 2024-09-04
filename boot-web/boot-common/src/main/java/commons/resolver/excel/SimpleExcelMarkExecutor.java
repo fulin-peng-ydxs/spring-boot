@@ -17,16 +17,7 @@ import java.util.Map;
 @Component
 public class SimpleExcelMarkExecutor extends ExcelMarkResolver {
 
-    /**
-     * 生成exel
-     * 2024/8/30 下午4:13
-     * @param rows 数据集集
-     * @param header key：表头-value：字段映射
-     * @param isXlsx 是否导出xlsx类型，否则为xls
-     * @param excelMark ExcelExport注解对象
-     * @return excel的字节数组
-     * @author fulin-peng
-     */
+
     protected byte[] convertData(Collection<?> rows, Map<String, String> header, boolean isXlsx, ExcelMark excelMark) {
         return ExcelUtils.writeToBytes(Collections.singletonMap(excelMark.sheetName(), rows),
                 Collections.singletonMap(excelMark.sheetName(), header), excelMark.headerIndex(), excelMark.startRowIndex(),
