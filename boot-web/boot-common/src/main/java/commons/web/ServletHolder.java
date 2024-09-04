@@ -1,4 +1,4 @@
-package commons.holder;
+package commons.web;
 
 
 import commons.model.web.mime.MimeType;
