@@ -28,7 +28,7 @@ public @interface ExcelMark {
      */
     String[] fieldNames() default {};
     /**
-     * 指定导出或导入忽略的字段，为空默认导出全部,fieldNames和fieldIgnoreNames都不为空则，则一起生效
+     * 指定导出或导入忽略的字段，为空默认导出全部,fieldNames和fieldIgnoreNames都不为空，则优先使用fieldNames
      */
     String[] fieldIgnoreNames() default {};
     /**
