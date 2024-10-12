@@ -1,7 +1,7 @@
 package commons.resolver.web;
 
-import commons.basics.MultipartResolver;
-import commons.basics.ServletHolder;
+import commons.web.MultipartResolver;
+import commons.web.ServletHolder;
 import commons.model.annotations.excel.ExcelMark;
 import commons.resolver.excel.ExcelMarkResolver;
 import commons.utils.CollectionUtils;

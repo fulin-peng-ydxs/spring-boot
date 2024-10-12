@@ -1,4 +1,4 @@
-package commons.basics;
+package commons.web;
 
 import commons.utils.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
