@@ -16,6 +16,8 @@ public class MimeType {
     public final static String APPLICATION_JSON = "application/json";
     //yaml
     public final static String APPLICATION_YAML = "application/x-yaml";
+    //text
+    public final static String TEXT_PLAIN = "text/plain";
     //pdf
     public final static String APPLICATION_PDF = "application/pdf";
     //二进制：它通常用于表示二进制数据文件的内容类型。没有特定的数据格式或结构，它通常用于指示数据是未知的、不可解释的二进制数据。
