@@ -44,6 +44,10 @@ public class Response<T> {
 		return new  Response<>(ResponseStatus.SUCCESS, null);
 	}
 
+	public static <T> Response<T> successMsg(String message){
+		return new Response<>(ResponseStatus.SUCCESS.getStatus(), message,null);
+	}
+
 	public static  <T> Response<GeneralQueryResult<T>> success(T body,Number total){
 		return new Response<>(ResponseStatus.SUCCESS,new GeneralQueryResult<>(body,total));
 	}
