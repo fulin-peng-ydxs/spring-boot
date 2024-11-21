@@ -10,13 +10,13 @@ import lombok.Getter;
 @Getter
 public enum ResponseStatus {
 
-    SUCCESS("SUCCESS","请求成功"),
-    ERROR("ERROR","系统异常"),
-    BUSINESS_FAILURE("BUSINESS_FAILURE","业务错误"),
-    AUTHENTICATION_FAILURE("AUTHENTICATION_FAILURE","认证失败"),
-    AUTHORIZATION_FAILURE("AUTHORIZATION_FAILURE","鉴权失败"),
-    REQUEST_PATH_FAILURE("REQUEST_PATH_FAILURE","请求路径错误"),
-    PARAMS_CHECK_FAILURE("PARAM_CHECK_FAILURE","参数校验不通过");
+    SUCCESS("success","请求成功"),
+    ERROR("error","系统异常"),
+    BUSINESS_FAILURE("business_failure","业务错误"),
+    AUTHENTICATION_FAILURE("authentication_failure","认证失败"),
+    AUTHORIZATION_FAILURE("authorization_failure","鉴权失败"),
+    REQUEST_PATH_FAILURE("request_path_failure","请求路径错误"),
+    PARAMS_CHECK_FAILURE("param_check_failure","参数校验不通过");
 
     private final String status;
     private final String message;
