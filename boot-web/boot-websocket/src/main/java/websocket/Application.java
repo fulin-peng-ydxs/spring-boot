@@ -3,7 +3,7 @@ package websocket;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 
 /**
@@ -13,9 +13,10 @@ import org.springframework.web.socket.config.annotation.EnableWebSocket;
  */
 @EnableWebSocket
 @SpringBootApplication
+@ServletComponentScan(basePackages = {"websocket.filter"})
 public class Application {
 
     public static void main(String[] args) {
-        ConfigurableApplicationContext run = SpringApplication.run(Application.class, args);
+        SpringApplication.run(Application.class, args);
     }
 }
