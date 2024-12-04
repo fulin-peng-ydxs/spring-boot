@@ -2,14 +2,16 @@ package web.mvc.error;
 
 import commons.model.exception.GeneralBusinessException;
 import commons.model.web.response.Response;
+import commons.utils.ExceptionUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
+
+
 
 /**
  * 通用controller异常处理器
@@ -30,6 +32,19 @@ public class GeneralErrorHandler {
     public Response<?> defaultHandle(Exception e){
         log.error("系统异常：",e);
         return Response.failure();
+    }
+
+
+    /**
+     * 系统根异常处理：json
+     * 2023/12/20 22:44
+     * @author pengshuaifeng
+     */
+    @ResponseBody
+    @ExceptionHandler(Exception.class)
+    public Response<?> generalSystemRootHandle(Exception e){
+        log.error("系统root异常：",e);
+        return Response.failure(ExceptionUtils.getRootCause(e).getMessage());
     }
 
     /**
