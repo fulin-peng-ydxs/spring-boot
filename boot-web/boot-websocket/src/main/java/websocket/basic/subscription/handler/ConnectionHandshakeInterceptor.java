@@ -1,5 +1,6 @@
 package websocket.basic.subscription.handler;
 
+import commons.web.ServerHttpRequestUtils;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.socket.WebSocketHandler;
@@ -13,26 +14,11 @@ public class ConnectionHandshakeInterceptor implements HandshakeInterceptor {
     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, 
                                     WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
         // 获取请求头中的 token
-        String token = request.getHeaders().getFirst("token");
+        String token = ServerHttpRequestUtils.getHeader(request,"token");
         if(token==null){  //获取cookie中的token
-            String cookies = request.getHeaders().getFirst("Cookie");
-            if (cookies!=null){
-                for (String cookie : cookies.split(";")) {
-                    String[] cookieKeyAndValue = cookie.split("=");
-                    if (cookieKeyAndValue[0].equals("token")) {
-                        token = cookieKeyAndValue[1];
-                    }
-                }
-            }
+            token = ServerHttpRequestUtils.getCookieValue(request, "token");
             if (token==null){ //获取url中的token
-                String query = request.getURI().getQuery();
-                if (query!=null) {
-                    for (String param : query.split("&")){
-                        String[] paramKeyAndValue = param.split("=");
-                        if (paramKeyAndValue[0].equals("token"))
-                            token = paramKeyAndValue[1];
-                    }
-                }
+                token=ServerHttpRequestUtils.getQueryParamValue(request, "token");
             }
         }
         if (token != null)
