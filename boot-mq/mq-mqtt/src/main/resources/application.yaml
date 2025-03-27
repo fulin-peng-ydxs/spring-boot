@@ -1,0 +1,20 @@
+spring:
+  mqtt:
+    username: atguigu_mqtt
+    password: 123
+    url: tcp://180.184.53.74:1883
+    subClientId: sub_client_id_123
+    subTopic: atguigu/iot/lamp/line,atguigu/iot/lamp/device/status
+    pubClientId: pub_client_id_123
+
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.136.150:3306/lamp_test?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password: 1234
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+  mapper-locations: classpath*:mapper/*Mapper.xml
