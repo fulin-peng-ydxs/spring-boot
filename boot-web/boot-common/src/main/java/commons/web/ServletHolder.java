@@ -241,6 +241,32 @@ public class ServletHolder {
     }
 
     /**
+     * 设置请求头
+     * 2025/4/18 16:02
+     * @author pengshuaifeng
+     * @param response 响应对象
+     * @param  headerName 请求头名称
+     * @param  headerValue 请求头值
+     */
+    public static void setResponseHeader(HttpServletResponse response, String headerName, String headerValue) {
+        response.setHeader(headerName, headerValue);
+    }
+
+    public static void setResponseHeader(String headerName, String headerValue) {
+        setResponseHeader(getResponse(), headerName, headerValue);
+    }
+
+    /**
+     * 设置请求头
+     * 2025/4/18 16:02
+     * @author pengshuaifeng
+     * @param  headers 请求头集合
+     */
+    public static void setResponseHeader(Map<String, String> headers) {
+        headers.forEach(ServletHolder::setResponseHeader);
+    }
+
+    /**
      * 请求响应：文件流头设置
      * 2023/12/30 13:18
      * @param contentLength 文件字节大小
